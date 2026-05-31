@@ -1,0 +1,10 @@
+{
+  "name": "maintainer-workbench",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check app.js && node --check src/analyzer.js && node --check src/sample-data.js && node --check src/providers/sample-provider.js && node --check src/providers/github-provider.js"
+  }
+}

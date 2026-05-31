@@ -1,0 +1,116 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+
+import {
+  classifyIssue,
+  extractRepoIdentity,
+  generateMaintainerWorkspace
+} from "../src/analyzer.js";
+
+const fixture = {
+  issues: [
+    {
+      number: 11,
+      title: "Crash when config file is missing",
+      body: "The CLI throws a stack trace when no config file exists.",
+      labels: ["bug", "good first issue"],
+      comments: 4,
+      updatedAt: "2026-05-29"
+    },
+    {
+      number: 12,
+      title: "Add dark mode to dashboard",
+      body: "Feature request for a dark theme toggle.",
+      labels: ["enhancement"],
+      comments: 7,
+      updatedAt: "2026-05-28"
+    },
+    {
+      number: 13,
+      title: "How do I configure OAuth?",
+      body: "Question about setting OAuth callback URL.",
+      labels: ["question"],
+      comments: 2,
+      updatedAt: "2026-05-25"
+    },
+    {
+      number: 14,
+      title: "Document environment variables",
+      body: "README is missing deployment environment variable details.",
+      labels: ["documentation", "good first issue"],
+      comments: 1,
+      updatedAt: "2026-05-24"
+    }
+  ],
+  pullRequests: [
+    {
+      number: 21,
+      title: "Improve startup error handling",
+      filesChanged: ["src/config.js", "tests/config.test.js", "README.md"],
+      additions: 120,
+      deletions: 18
+    }
+  ],
+  releases: [
+    {
+      tag: "v1.4.0",
+      merged: [
+        "Add dashboard dark mode",
+        "Fix missing config crash",
+        "Update environment variable docs"
+      ]
+    }
+  ]
+};
+
+test("extractRepoIdentity accepts GitHub URLs and owner/repo shorthand", () => {
+  assert.deepEqual(extractRepoIdentity("https://github.com/openai/codex"), {
+    owner: "openai",
+    repo: "codex",
+    url: "https://github.com/openai/codex"
+  });
+
+  assert.deepEqual(extractRepoIdentity("openai/codex"), {
+    owner: "openai",
+    repo: "codex",
+    url: "https://github.com/openai/codex"
+  });
+});
+
+test("classifyIssue maps issue intent to maintainer buckets", () => {
+  assert.equal(classifyIssue(fixture.issues[0]), "bug");
+  assert.equal(classifyIssue(fixture.issues[1]), "feature");
+  assert.equal(classifyIssue(fixture.issues[2]), "question");
+  assert.equal(classifyIssue(fixture.issues[3]), "docs");
+});
+
+test("classifyIssue prefers documentation labels over generic help labels", () => {
+  assert.equal(
+    classifyIssue({
+      title: "Add examples for plugin authors",
+      body: "A short guide would help first-time contributors add integrations.",
+      labels: ["docs", "help wanted"]
+    }),
+    "docs"
+  );
+});
+
+test("generateMaintainerWorkspace returns every maintainer artifact", () => {
+  const result = generateMaintainerWorkspace("https://github.com/acme/toolkit", fixture);
+
+  assert.equal(result.repository.fullName, "acme/toolkit");
+  assert.deepEqual(result.issueSummary.counts, {
+    bug: 1,
+    feature: 1,
+    question: 1,
+    docs: 1
+  });
+  assert.match(result.prChecklist, /tests/i);
+  assert.match(result.releaseNotesDraft, /Fixes/);
+  assert.match(result.readmeSuggestions, /Quick start/);
+  assert.match(result.contributingDraft, /How to contribute/);
+  assert.equal(result.goodFirstIssues.length, 2);
+  assert.match(result.weeklyReport, /4 open issues/);
+  assert.match(result.applicationPitch, /Codex open source support/i);
+  assert.match(result.applicationPitch, /maintainer/i);
+});

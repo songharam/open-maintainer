@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="GitHub 저장소 URL로 오픈소스 메인테이너용 이슈 분류, PR 체크리스트, 릴리스 노트, README 개선안, CONTRIBUTING 초안, 주간 리포트를 생성하는 작업대"
+    >
+    <title>Open Maintainer Workbench</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Codex 오픈소스 지원 프로그램 신청 데모</p>
+          <h1>Open Maintainer Workbench</h1>
+          <p class="hero-copy">
+            오픈소스 메인테이너의 반복 업무를 repo URL 하나로 정리하는 Codex 확장형 작업대
+          </p>
+        </div>
+        <div class="status-pill" id="providerStatus">Sample data</div>
+      </header>
+
+      <main class="workspace">
+        <section class="control-panel" aria-label="Repository input">
+          <div class="panel-heading">
+            <span class="section-kicker">Repository</span>
+            <h2>URL 하나로 신청 데모 실행</h2>
+          </div>
+          <form class="repo-form" id="repoForm">
+            <label for="repoInput">GitHub repo URL</label>
+            <div class="input-row">
+              <input
+                id="repoInput"
+                name="repo"
+                type="text"
+                value="https://github.com/open-source/maintainer-kit"
+                autocomplete="off"
+                spellcheck="false"
+              >
+              <button type="submit">생성</button>
+            </div>
+          </form>
+
+          <div class="repo-card" id="repoCard">
+            <span class="repo-avatar" aria-hidden="true">OM</span>
+            <div>
+              <p class="repo-label">Current repo</p>
+              <strong id="repoName">open-source/maintainer-kit</strong>
+              <a id="repoUrl" href="https://github.com/open-source/maintainer-kit">GitHub에서 보기</a>
+            </div>
+          </div>
+
+          <div class="signal-grid" aria-label="Issue classification summary">
+            <div class="signal bug">
+              <span>Bug</span>
+              <strong id="bugCount">0</strong>
+            </div>
+            <div class="signal feature">
+              <span>Feature</span>
+              <strong id="featureCount">0</strong>
+            </div>
+            <div class="signal question">
+              <span>Question</span>
+              <strong id="questionCount">0</strong>
+            </div>
+            <div class="signal docs">
+              <span>Docs</span>
+              <strong id="docsCount">0</strong>
+            </div>
+          </div>
+
+          <div class="mini-chart" aria-label="Maintainer workload chart">
+            <div style="--height: 74%" class="chart-bar bug"><span>Bug</span></div>
+            <div style="--height: 48%" class="chart-bar feature"><span>Feature</span></div>
+            <div style="--height: 34%" class="chart-bar question"><span>Question</span></div>
+            <div style="--height: 58%" class="chart-bar docs"><span>Docs</span></div>
+          </div>
+
+          <div class="impact-strip">
+            <span>GitHub API 없이 즉시 체험</span>
+            <span>Codex/API 확장 구조 준비</span>
+            <span>메인테이너 반복 업무 자동화</span>
+          </div>
+        </section>
+
+        <section class="results-panel" aria-label="Generated maintainer workspace">
+          <nav class="tabs" aria-label="Result sections">
+            <button class="tab is-active" data-tab="issues" type="button">이슈</button>
+            <button class="tab" data-tab="pr" type="button">PR</button>
+            <button class="tab" data-tab="release" type="button">릴리스</button>
+            <button class="tab" data-tab="readme" type="button">README</button>
+            <button class="tab" data-tab="contributing" type="button">CONTRIBUTING</button>
+            <button class="tab" data-tab="firstIssues" type="button">Good first</button>
+            <button class="tab" data-tab="report" type="button">리포트</button>
+            <button class="tab" data-tab="pitch" type="button">신청 요약</button>
+          </nav>
+
+          <div class="tab-panel is-active" id="issues">
+            <div class="panel-heading">
+              <span class="section-kicker">Issue triage</span>
+              <h2>자동 분류 결과</h2>
+            </div>
+            <div class="issue-columns" id="issueColumns"></div>
+          </div>
+
+          <article class="tab-panel document-panel" id="pr">
+            <div class="document-heading">
+              <div>
+                <span class="section-kicker">Pull request</span>
+                <h2>리뷰 체크리스트</h2>
+              </div>
+              <button class="copy-button" data-copy="prOutput" type="button">복사</button>
+            </div>
+            <pre id="prOutput"></pre>
+          </article>
+
+          <article class="tab-panel document-panel" id="release">
+            <div class="document-heading">
+              <div>
+                <span class="section-kicker">Release</span>
+                <h2>릴리스 노트 초안</h2>
+              </div>
+              <button class="copy-button" data-copy="releaseOutput" type="button">복사</button>
+            </div>
+            <pre id="releaseOutput"></pre>
+          </article>
+
+          <article class="tab-panel document-panel" id="readme">
+            <div class="document-heading">
+              <div>
+                <span class="section-kicker">README</span>
+                <h2>개선안</h2>
+              </div>
+              <button class="copy-button" data-copy="readmeOutput" type="button">복사</button>
+            </div>
+            <pre id="readmeOutput"></pre>
+          </article>
+
+          <article class="tab-panel document-panel" id="contributing">
+            <div class="document-heading">
+              <div>
+                <span class="section-kicker">Contributing</span>
+                <h2>CONTRIBUTING.md 초안</h2>
+              </div>
+              <button class="copy-button" data-copy="contributingOutput" type="button">복사</button>
+            </div>
+            <pre id="contributingOutput"></pre>
+          </article>
+
+          <article class="tab-panel" id="firstIssues">
+            <div class="panel-heading">
+              <span class="section-kicker">Contributor onboarding</span>
+              <h2>추천 good first issue</h2>
+            </div>
+            <div class="first-issue-list" id="firstIssueList"></div>
+          </article>
+
+          <article class="tab-panel document-panel" id="report">
+            <div class="document-heading">
+              <div>
+                <span class="section-kicker">Weekly report</span>
+                <h2>메인테이너 주간 리포트</h2>
+              </div>
+              <button class="copy-button" data-copy="reportOutput" type="button">복사</button>
+            </div>
+            <pre id="reportOutput"></pre>
+          </article>
+
+          <article class="tab-panel document-panel" id="pitch">
+            <div class="document-heading">
+              <div>
+                <span class="section-kicker">Application</span>
+                <h2>Codex 지원 프로그램 신청 요약</h2>
+              </div>
+              <button class="copy-button" data-copy="pitchOutput" type="button">복사</button>
+            </div>
+            <pre id="pitchOutput"></pre>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
