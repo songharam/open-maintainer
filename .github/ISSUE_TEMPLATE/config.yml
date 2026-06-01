@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Demo roadmap
+    url: https://github.com/songharam/open-maintainer/blob/main/docs/roadmap.md
+    about: Check planned maintainer workflow improvements.

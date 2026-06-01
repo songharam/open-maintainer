@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest a maintainer workflow improvement.
+title: "Feature: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Maintainer problem
+      description: What repeated maintainer task would this improve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Issue triage
+        - PR review
+        - Release notes
+        - README and docs
+        - GitHub API provider
+        - Application pitch
+    validations:
+      required: true

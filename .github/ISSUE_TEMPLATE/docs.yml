@@ -1,0 +1,18 @@
+name: Documentation
+description: Suggest README, CONTRIBUTING, or demo documentation changes.
+title: "Docs: "
+labels: ["docs"]
+body:
+  - type: textarea
+    id: location
+    attributes:
+      label: Document or section
+      description: Which document needs a change?
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: Suggested change
+    validations:
+      required: true
