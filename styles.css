@@ -205,6 +205,30 @@ h3 {
   min-width: 0;
 }
 
+.provider-notice {
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #08090b;
+  color: #d9e2f1;
+  padding: 12px;
+  font-size: 0.86rem;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.provider-notice[data-kind="live"] {
+  border-color: rgba(70, 217, 130, 0.6);
+}
+
+.provider-notice[data-kind="empty"] {
+  border-color: rgba(244, 184, 74, 0.65);
+}
+
+.provider-notice[data-kind="fallback"] {
+  border-color: rgba(255, 107, 107, 0.65);
+}
+
 .repo-avatar {
   display: grid;
   place-items: center;

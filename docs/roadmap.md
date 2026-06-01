@@ -8,9 +8,10 @@
 
 ## Phase 2: GitHub API Provider
 
-- Fetch open issues, pull requests, labels, and releases.
-- Normalize GitHub API responses into the existing snapshot shape.
-- Keep sample mode as a no-login fallback.
+- Fetch open issues, pull requests, pull request files, and releases. Completed in `0.4.0`.
+- Normalize GitHub API responses into the existing snapshot shape. Completed in `0.4.0`.
+- Keep sample mode as a no-login fallback. Completed in `0.4.0`.
+- Next: support optional user-provided tokens without storing them.
 
 ## Phase 3: Codex-Assisted Maintainer Workflows
 

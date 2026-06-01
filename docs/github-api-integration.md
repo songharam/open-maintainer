@@ -1,23 +1,22 @@
-# GitHub API Integration Plan
+# GitHub API Provider
 
-The current demo uses `src/providers/sample-provider.js`. The future GitHub provider should keep the same internal snapshot shape so the UI and analyzer do not need major changes.
+The app now includes a live GitHub provider in `src/providers/github-provider.js`. It keeps the same internal snapshot shape as sample mode so the UI and analyzer do not need separate code paths.
 
 ## Target Inputs
 
 The user provides:
 
 - GitHub repository URL or `owner/repo`
-- Optional GitHub token for private repositories or higher rate limits
+The current implementation does not store or require tokens. It uses unauthenticated REST API requests for public repositories.
 
 ## API Reads
 
-Initial provider support should fetch:
+Provider support fetches:
 
 - Open issues
 - Open pull requests
 - Pull request changed files
-- Latest release or tags
-- Repository metadata
+- Published releases
 
 ## Normalization
 
@@ -62,7 +61,7 @@ GitHub responses should be normalized into:
 
 ## Codex/API Upgrade Path
 
-Once real GitHub data is available, Codex/API support can improve:
+With real GitHub data available, Codex/API support can improve:
 
 - More accurate issue classification reasons
 - Project-specific PR review checklist generation

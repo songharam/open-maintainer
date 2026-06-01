@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 - 2026-06-02
+
+- Added live GitHub provider for public repository issues, pull requests, pull request files, and releases.
+- Added provider status messaging for live, empty, rate limit, not found, network error, and sample fallback states.
+- Updated docs for live GitHub mode.
+
 ## 0.3.0 - 2026-06-01
 
 - Added maintainer priority brief with next actions and risk alerts.

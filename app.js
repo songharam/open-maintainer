@@ -1,4 +1,8 @@
-import { generateMaintainerWorkspace } from "./src/analyzer.js";
+import { extractRepoIdentity, generateMaintainerWorkspace } from "./src/analyzer.js";
+import {
+  GitHubProviderError,
+  getRepositorySnapshotFromGitHub
+} from "./src/providers/github-provider.js";
 import { getRepositorySnapshot } from "./src/providers/sample-provider.js";
 
 const form = document.querySelector("#repoForm");
@@ -6,6 +10,7 @@ const repoInput = document.querySelector("#repoInput");
 const providerStatus = document.querySelector("#providerStatus");
 const repoName = document.querySelector("#repoName");
 const repoUrl = document.querySelector("#repoUrl");
+const providerNotice = document.querySelector("#providerNotice");
 const issueColumns = document.querySelector("#issueColumns");
 const firstIssueList = document.querySelector("#firstIssueList");
 const prioritySummary = document.querySelector("#prioritySummary");
@@ -71,8 +76,11 @@ downloadMarkdown.addEventListener("click", () => {
 await renderWorkspace(repoInput.value);
 
 async function renderWorkspace(repoValue) {
-  providerStatus.textContent = "Sample data";
-  const snapshot = await getRepositorySnapshot(repoValue);
+  providerStatus.textContent = "Loading GitHub";
+  providerNotice.textContent = "공개 GitHub 저장소 데이터를 불러오는 중입니다.";
+  providerNotice.dataset.kind = "loading";
+  const repoIdentity = extractRepoIdentity(repoValue);
+  const { snapshot, notice } = await loadRepositorySnapshot(repoIdentity);
   const workspace = generateMaintainerWorkspace(repoValue, snapshot);
   latestWorkspace = workspace;
 
@@ -94,6 +102,56 @@ async function renderWorkspace(repoValue) {
   outputs.report.textContent = workspace.weeklyReport;
   outputs.pitch.textContent = workspace.applicationPitch;
   outputs.export.textContent = workspace.markdownExport;
+  renderProviderStatus(snapshot, notice);
+}
+
+async function loadRepositorySnapshot(repoIdentity) {
+  try {
+    const snapshot = await getRepositorySnapshotFromGitHub(repoIdentity);
+    return {
+      snapshot,
+      notice: snapshot.status.message
+    };
+  } catch (error) {
+    const fallback = await getRepositorySnapshot();
+    return {
+      snapshot: fallback,
+      notice: `${providerErrorMessage(error)} Sample data fallback is active.`
+    };
+  }
+}
+
+function renderProviderStatus(snapshot, notice) {
+  if (snapshot.provider === "github") {
+    providerStatus.textContent = snapshot.status.kind === "empty" ? "Live GitHub empty" : "Live GitHub";
+    providerNotice.dataset.kind = snapshot.status.kind;
+    providerNotice.textContent = notice;
+    return;
+  }
+
+  providerStatus.textContent = "Sample fallback";
+  providerNotice.dataset.kind = "fallback";
+  providerNotice.textContent = notice;
+}
+
+function providerErrorMessage(error) {
+  if (!(error instanceof GitHubProviderError)) {
+    return "GitHub API request failed.";
+  }
+
+  if (error.type === "rate-limit") {
+    return "GitHub API rate limit was reached.";
+  }
+
+  if (error.type === "not-found") {
+    return "Repository was not found or is not public.";
+  }
+
+  if (error.type === "network") {
+    return "Could not connect to GitHub API.";
+  }
+
+  return error.message;
 }
 
 function renderPriorityBrief(priorityBrief) {
