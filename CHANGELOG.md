@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.0 - 2026-06-02
+
+- Added a GitHub repository health checklist artifact for repo profile, templates, labels, CI, and release readiness.
+- Added a `Repo health` tab and included the checklist in Markdown export.
+- Broadened homepage and project summary copy so the app reads as a maintainer tool, not only an application demo.
+- Added GitHub repository upgrade guidance for README, topics, labels, Pages, Netlify, and demo evidence.
+
 ## 0.4.0 - 2026-06-02
 
 - Added live GitHub provider for public repository issues, pull requests, pull request files, and releases.

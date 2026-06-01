@@ -1,6 +1,7 @@
 # Open Maintainer Workbench
 
 [![CI](https://github.com/songharam/open-maintainer/actions/workflows/ci.yml/badge.svg)](https://github.com/songharam/open-maintainer/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
 Open Maintainer Workbench는 오픈소스 메인테이너가 반복적으로 처리하는 이슈 triage, PR 리뷰 준비, 릴리스 문서 작성, 신규 기여자 온보딩을 한 화면에서 정리하는 정적 웹앱입니다. GitHub 저장소 URL만 입력하면 이슈 분류, 우선순위 브리프, PR 리뷰 체크리스트, 릴리스 노트 초안, README 개선안, CONTRIBUTING.md 초안, good first issue 추천, 주간 리포트, 전체 Markdown export를 바로 얻을 수 있습니다.
 
@@ -16,12 +17,13 @@ Open Maintainer Workbench는 오픈소스 메인테이너가 반복적으로 처
 - 이슈 자동 분류: `bug`, `feature`, `question`, `docs`
 - PR 리뷰 체크리스트 생성
 - 이번 주 우선순위 브리프 생성
+- GitHub 저장소 운영 체크리스트 생성
 - 릴리스 노트 초안 생성
 - README 개선안 생성
 - CONTRIBUTING.md 초안 생성
 - good first issue 추천
 - 메인테이너 주간 리포트 생성
-- Codex 지원 프로그램 신청용 요약 생성
+- 프로젝트 공유 및 지원용 요약 생성
 - 전체 산출물 Markdown 복사 및 다운로드
 - 공개 GitHub 저장소의 Issues, Pull Requests, Releases live 읽기
 - API 실패, rate limit, 빈 저장소 상태 표시
@@ -35,6 +37,7 @@ Open Maintainer Workbench는 오픈소스 메인테이너가 반복적으로 처
 - 기여 가이드: [CONTRIBUTING.md](./CONTRIBUTING.md)
 - 보안 정책: [SECURITY.md](./SECURITY.md)
 - 데모 진행 가이드: [docs/demo-script.md](./docs/demo-script.md)
+- GitHub 저장소 업그레이드 가이드: [docs/github-repository-upgrade.md](./docs/github-repository-upgrade.md)
 - 로드맵: [docs/roadmap.md](./docs/roadmap.md)
 - 아키텍처: [docs/architecture.md](./docs/architecture.md)
 - GitHub API 연결 계획: [docs/github-api-integration.md](./docs/github-api-integration.md)
@@ -74,7 +77,8 @@ python3 -m http.server 4173
 │   └── analyzer.test.mjs
 ├── docs
 │   ├── codex-application-copy.md
-│   └── codex-application-summary.md
+│   ├── codex-application-summary.md
+│   └── github-repository-upgrade.md
 ├── .github
 │   ├── ISSUE_TEMPLATE
 │   ├── PULL_REQUEST_TEMPLATE.md

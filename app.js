@@ -25,6 +25,7 @@ const counts = {
 };
 const outputs = {
   pr: document.querySelector("#prOutput"),
+  health: document.querySelector("#healthOutput"),
   release: document.querySelector("#releaseOutput"),
   readme: document.querySelector("#readmeOutput"),
   contributing: document.querySelector("#contributingOutput"),
@@ -96,6 +97,7 @@ async function renderWorkspace(repoValue) {
   renderGoodFirstIssues(workspace.goodFirstIssues);
   renderPriorityBrief(workspace.priorityBrief);
   outputs.pr.textContent = workspace.prChecklist;
+  outputs.health.textContent = workspace.repositoryHealthChecklist;
   outputs.release.textContent = workspace.releaseNotesDraft;
   outputs.readme.textContent = workspace.readmeSuggestions;
   outputs.contributing.textContent = workspace.contributingDraft;

@@ -78,6 +78,13 @@ export function generateMaintainerWorkspace(repoInput, data) {
     },
     issueSummary,
     prChecklist: buildPrChecklist(repository, pullRequests),
+    repositoryHealthChecklist: buildRepositoryHealthChecklist(
+      repository,
+      issues,
+      pullRequests,
+      issueSummary,
+      goodFirstIssues
+    ),
     releaseNotesDraft: buildReleaseNotes(repository, releases, issueSummary),
     readmeSuggestions: buildReadmeSuggestions(repository, issueSummary),
     contributingDraft: buildContributingDraft(repository),
@@ -160,6 +167,33 @@ Target: ${title}
 - [ ] Release note entry is either included or intentionally unnecessary.`;
 }
 
+function buildRepositoryHealthChecklist(repository, issues, pullRequests, issueSummary, goodFirstIssues) {
+  return `# GitHub repository health checklist for ${repository.owner}/${repository.repo}
+
+## Repository profile
+
+- [ ] Add a concise About description that explains the maintainer workflow problem.
+- [ ] Add a demo URL, repository topics, and a license badge near the top of README.
+- [ ] Link README, CONTRIBUTING, SECURITY, roadmap, architecture, and demo script from the repository front page.
+
+## Maintainer workflow
+
+- [ ] Issue templates cover bug reports, feature requests, documentation updates, and questions.
+- [ ] PR template asks for summary, maintainer impact, validation commands, and screenshots for UI changes.
+- [ ] Labels include bug, enhancement, docs, question, good first issue, help wanted, and maintenance.
+- [ ] CI runs tests and syntax checks on pushes and pull requests.
+- [ ] Release notes and CHANGELOG stay aligned before tags are published.
+
+## Current snapshot
+
+- Open issues reviewed: ${issues.length}
+- Active pull requests reviewed: ${pullRequests.length}
+- Bug queue: ${issueSummary.counts.bug}
+- Good first issue candidates: ${goodFirstIssues.length}
+
+Suggested next step: ${goodFirstIssues[0] ? `promote #${goodFirstIssues[0].number} as the first contributor task.` : "create or label one small contributor-friendly issue."}`;
+}
+
 function buildReleaseNotes(repository, releases, issueSummary) {
   const latest = releases[0];
   const merged = latest?.merged || [];
@@ -222,7 +256,7 @@ Recommended focus: ${mostDiscussed ? `issue #${mostDiscussed.number}, "${mostDis
 }
 
 function buildApplicationPitch(repository, issues, pullRequests, issueSummary) {
-  return `# Codex open source support application pitch
+  return `# Open Maintainer Workbench project summary
 
 Project: Open Maintainer Workbench for ${repository.owner}/${repository.repo}
 
@@ -232,11 +266,11 @@ Open source maintainers spend repeated time on issue triage, pull request review
 
 ## Demo value
 
-Using only sample data, the app classifies ${issues.length} issues, prepares review and release artifacts for ${pullRequests.length} pull requests, recommends beginner-friendly issues, and creates a weekly maintainer report without requiring GitHub API setup.
+The app reads public GitHub repository data when available, falls back to sample data when needed, classifies ${issues.length} issues, prepares review and release artifacts for ${pullRequests.length} pull requests, recommends beginner-friendly issues, and creates a weekly maintainer report.
 
-## Why Codex support matters
+## Why support matters
 
-Codex/API support would let this prototype connect to real repositories, learn project-specific labels and release style, draft higher-quality maintainer documents, and reduce the repetitive work that prevents maintainers from reviewing code and supporting contributors.
+Codex/API support would help the project learn repository-specific labels and release style, draft higher-quality maintainer documents, and reduce repetitive work that prevents maintainers from reviewing code and supporting contributors.
 
 ## Current workload snapshot
 
@@ -276,6 +310,10 @@ ${issueLines || "- No open issues in sample data."}
 
 ${workspace.prChecklist}
 
+## GitHub repository health checklist
+
+${workspace.repositoryHealthChecklist}
+
 ## Release notes draft
 
 ${workspace.releaseNotesDraft}
@@ -308,7 +346,7 @@ ${riskLines}
 
 ${workspace.weeklyReport}
 
-## Codex support application pitch
+## Project summary
 
 ${workspace.applicationPitch}
 `;

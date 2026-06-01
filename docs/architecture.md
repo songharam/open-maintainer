@@ -7,16 +7,16 @@ flowchart LR
   User["Maintainer enters repo URL"]
   Provider["Provider layer"]
   Sample["Sample provider"]
-  GitHub["Future GitHub API provider"]
+  GitHub["Live GitHub provider"]
   Analyzer["Analyzer and artifact generator"]
   UI["Tabbed maintainer workspace"]
 
   User --> UI
   UI --> Provider
   Provider --> Sample
-  Provider -. later .-> GitHub
+  Provider --> GitHub
   Sample --> Analyzer
-  GitHub -. normalized snapshot .-> Analyzer
+  GitHub --> Analyzer
   Analyzer --> UI
 ```
 
@@ -30,6 +30,7 @@ flowchart LR
 - `src/providers/sample-provider.js`: returns the demo snapshot.
 - `src/providers/github-provider.js`: live GitHub API provider for public repository data.
 - `tests/analyzer.test.mjs`: behavior tests for parsing, classification, and artifact generation.
+- `tests/github-provider.test.mjs`: provider tests for normalization and API error handling.
 
 ## Data Shape
 
@@ -43,7 +44,7 @@ Providers should return a repository snapshot:
 }
 ```
 
-The analyzer receives that snapshot and returns UI-ready strings and structured lists. The UI does not need to know whether data came from sample mode or GitHub API mode.
+The analyzer receives that snapshot and returns UI-ready strings and structured lists, including issue triage, PR review checklist, repository health checklist, release notes, README suggestions, CONTRIBUTING draft, good first issue recommendations, weekly report, project summary, and Markdown export. The UI does not need to know whether data came from sample mode or GitHub API mode.
 
 ## Design Constraints
 

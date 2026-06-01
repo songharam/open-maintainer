@@ -5,6 +5,7 @@
 - Keep the app static and easy to review.
 - Improve application pitch copy.
 - Add GitHub-ready project templates and CI.
+- Add a repository health checklist for GitHub profile, labels, templates, CI, and release readiness. Completed in `0.5.0`.
 
 ## Phase 2: GitHub API Provider
 

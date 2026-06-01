@@ -21,10 +21,10 @@
     <div class="app-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Codex 오픈소스 지원 프로그램 신청 데모</p>
+          <p class="eyebrow">Open source maintainer workbench</p>
           <h1>Open Maintainer Workbench</h1>
           <p class="hero-copy">
-            오픈소스 메인테이너의 반복 업무를 repo URL 하나로 정리하는 Codex 확장형 작업대
+            오픈소스 메인테이너의 반복 업무를 repo URL 하나로 정리하는 GitHub 작업대
           </p>
         </div>
         <div class="status-pill" id="providerStatus">Loading GitHub</div>
@@ -34,7 +34,7 @@
         <section class="control-panel" aria-label="Repository input">
           <div class="panel-heading">
             <span class="section-kicker">Repository</span>
-            <h2>URL 하나로 신청 데모 실행</h2>
+            <h2>URL 하나로 메인테이너 작업대 실행</h2>
           </div>
           <form class="repo-form" id="repoForm">
             <label for="repoInput">GitHub repo URL</label>
@@ -92,7 +92,7 @@
 
           <div class="impact-strip">
             <span>공개 GitHub repo live 분석</span>
-            <span>Codex/API 확장 구조 준비</span>
+            <span>GitHub 운영 체크리스트</span>
             <span>메인테이너 반복 업무 자동화</span>
           </div>
         </section>
@@ -102,12 +102,13 @@
             <button class="tab is-active" data-tab="issues" type="button">이슈</button>
             <button class="tab" data-tab="priority" type="button">우선순위</button>
             <button class="tab" data-tab="pr" type="button">PR</button>
+            <button class="tab" data-tab="health" type="button">Repo health</button>
             <button class="tab" data-tab="release" type="button">릴리스</button>
             <button class="tab" data-tab="readme" type="button">README</button>
             <button class="tab" data-tab="contributing" type="button">CONTRIBUTING</button>
             <button class="tab" data-tab="firstIssues" type="button">Good first</button>
             <button class="tab" data-tab="report" type="button">리포트</button>
-            <button class="tab" data-tab="pitch" type="button">신청 요약</button>
+            <button class="tab" data-tab="pitch" type="button">프로젝트 요약</button>
             <button class="tab" data-tab="export" type="button">Export</button>
           </nav>
 
@@ -148,6 +149,17 @@
               <button class="copy-button" data-copy="prOutput" type="button">복사</button>
             </div>
             <pre id="prOutput"></pre>
+          </article>
+
+          <article class="tab-panel document-panel" id="health">
+            <div class="document-heading">
+              <div>
+                <span class="section-kicker">GitHub readiness</span>
+                <h2>저장소 운영 체크리스트</h2>
+              </div>
+              <button class="copy-button" data-copy="healthOutput" type="button">복사</button>
+            </div>
+            <pre id="healthOutput"></pre>
           </article>
 
           <article class="tab-panel document-panel" id="release">
@@ -205,8 +217,8 @@
           <article class="tab-panel document-panel" id="pitch">
             <div class="document-heading">
               <div>
-                <span class="section-kicker">Application</span>
-                <h2>Codex 지원 프로그램 신청 요약</h2>
+                <span class="section-kicker">Project summary</span>
+                <h2>공유용 프로젝트 요약</h2>
               </div>
               <button class="copy-button" data-copy="pitchOutput" type="button">복사</button>
             </div>
