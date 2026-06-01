@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0 - 2026-06-01
+
+- Added full Markdown export for all generated maintainer outputs.
+- Added copy and download controls for the generated export.
+- Updated application docs to highlight exportable maintainer artifacts.
+
 ## 0.1.0 - 2026-06-01
 
 - Added the first Codex open source support demo.

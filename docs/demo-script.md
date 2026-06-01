@@ -22,6 +22,7 @@ Walk through these tabs:
 - `Good first`: beginner-friendly issue recommendations
 - `리포트`: weekly maintainer report
 - `신청 요약`: Codex support application pitch
+- `Export`: all generated outputs as one Markdown document
 
 ## 4. Explain the Codex Extension
 

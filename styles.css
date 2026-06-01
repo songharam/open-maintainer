@@ -151,6 +151,13 @@ h3 {
   margin-bottom: 16px;
 }
 
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
 .repo-form {
   display: grid;
   gap: 8px;

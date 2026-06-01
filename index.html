@@ -103,6 +103,7 @@
             <button class="tab" data-tab="firstIssues" type="button">Good first</button>
             <button class="tab" data-tab="report" type="button">리포트</button>
             <button class="tab" data-tab="pitch" type="button">신청 요약</button>
+            <button class="tab" data-tab="export" type="button">Export</button>
           </nav>
 
           <div class="tab-panel is-active" id="issues">
@@ -185,6 +186,20 @@
               <button class="copy-button" data-copy="pitchOutput" type="button">복사</button>
             </div>
             <pre id="pitchOutput"></pre>
+          </article>
+
+          <article class="tab-panel document-panel" id="export">
+            <div class="document-heading">
+              <div>
+                <span class="section-kicker">Markdown export</span>
+                <h2>전체 산출물 Markdown</h2>
+              </div>
+              <div class="action-row">
+                <button class="copy-button" data-copy="exportOutput" type="button">복사</button>
+                <button class="copy-button" id="downloadMarkdown" type="button">다운로드</button>
+              </div>
+            </div>
+            <pre id="exportOutput"></pre>
           </article>
         </section>
       </main>

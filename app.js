@@ -8,6 +8,7 @@ const repoName = document.querySelector("#repoName");
 const repoUrl = document.querySelector("#repoUrl");
 const issueColumns = document.querySelector("#issueColumns");
 const firstIssueList = document.querySelector("#firstIssueList");
+const downloadMarkdown = document.querySelector("#downloadMarkdown");
 const counts = {
   bug: document.querySelector("#bugCount"),
   feature: document.querySelector("#featureCount"),
@@ -20,8 +21,11 @@ const outputs = {
   readme: document.querySelector("#readmeOutput"),
   contributing: document.querySelector("#contributingOutput"),
   report: document.querySelector("#reportOutput"),
-  pitch: document.querySelector("#pitchOutput")
+  pitch: document.querySelector("#pitchOutput"),
+  export: document.querySelector("#exportOutput")
 };
+
+let latestWorkspace;
 
 const categoryLabels = {
   bug: "Bug",
@@ -50,12 +54,24 @@ document.querySelectorAll("[data-copy]").forEach((button) => {
   });
 });
 
+downloadMarkdown.addEventListener("click", () => {
+  if (!latestWorkspace) return;
+
+  const blob = new Blob([latestWorkspace.markdownExport], { type: "text/markdown" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `${latestWorkspace.repository.repo}-maintainer-workbench.md`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+});
+
 await renderWorkspace(repoInput.value);
 
 async function renderWorkspace(repoValue) {
   providerStatus.textContent = "Sample data";
   const snapshot = await getRepositorySnapshot(repoValue);
   const workspace = generateMaintainerWorkspace(repoValue, snapshot);
+  latestWorkspace = workspace;
 
   repoName.textContent = workspace.repository.fullName;
   repoUrl.href = workspace.repository.url;
@@ -73,6 +89,7 @@ async function renderWorkspace(repoValue) {
   outputs.contributing.textContent = workspace.contributingDraft;
   outputs.report.textContent = workspace.weeklyReport;
   outputs.pitch.textContent = workspace.applicationPitch;
+  outputs.export.textContent = workspace.markdownExport;
 }
 
 function renderIssueColumns(buckets) {

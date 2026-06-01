@@ -6,7 +6,7 @@ Open Maintainer Workbench
 
 ## 짧은 소개
 
-GitHub 저장소 URL만 입력하면 오픈소스 메인테이너에게 필요한 이슈 분류, PR 리뷰 체크리스트, 릴리스 노트, README 개선안, CONTRIBUTING.md 초안, good first issue 추천, 주간 리포트, Codex 지원 프로그램 신청용 요약을 생성하는 웹앱입니다.
+GitHub 저장소 URL만 입력하면 오픈소스 메인테이너에게 필요한 이슈 분류, PR 리뷰 체크리스트, 릴리스 노트, README 개선안, CONTRIBUTING.md 초안, good first issue 추천, 주간 리포트, Codex 지원 프로그램 신청용 요약, 전체 Markdown export를 생성하는 웹앱입니다.
 
 ## 문제
 

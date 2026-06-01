@@ -70,8 +70,7 @@ export function generateMaintainerWorkspace(repoInput, data) {
   const releases = data.releases || [];
   const issueSummary = summarizeIssues(issues);
   const goodFirstIssues = pickGoodFirstIssues(issues);
-
-  return {
+  const workspace = {
     repository: {
       ...repository,
       fullName: `${repository.owner}/${repository.repo}`
@@ -84,6 +83,11 @@ export function generateMaintainerWorkspace(repoInput, data) {
     goodFirstIssues,
     weeklyReport: buildWeeklyReport(repository, issues, pullRequests, issueSummary),
     applicationPitch: buildApplicationPitch(repository, issues, pullRequests, issueSummary)
+  };
+
+  return {
+    ...workspace,
+    markdownExport: buildMarkdownExport(workspace)
   };
 }
 
@@ -238,6 +242,56 @@ Codex/API support would let this prototype connect to real repositories, learn p
 - Features: ${issueSummary.counts.feature}
 - Questions: ${issueSummary.counts.question}
 - Docs: ${issueSummary.counts.docs}`;
+}
+
+function buildMarkdownExport(workspace) {
+  const issueLines = Object.entries(workspace.issueSummary.buckets)
+    .flatMap(([category, issues]) =>
+      issues.map((issue) => `- [${category}] #${issue.number} ${issue.title}`)
+    )
+    .join("\n");
+
+  const goodFirstLines = workspace.goodFirstIssues
+    .map((issue) => `- #${issue.number} ${issue.title} (score ${issue.score})`)
+    .join("\n");
+
+  return `# Maintainer workspace export
+
+Repository: ${workspace.repository.fullName}
+Source: ${workspace.repository.url}
+
+## Issue triage
+
+${issueLines || "- No open issues in sample data."}
+
+## PR review checklist
+
+${workspace.prChecklist}
+
+## Release notes draft
+
+${workspace.releaseNotesDraft}
+
+## README suggestions
+
+${workspace.readmeSuggestions}
+
+## CONTRIBUTING.md draft
+
+${workspace.contributingDraft}
+
+## Good first issue recommendations
+
+${goodFirstLines || "- No beginner-friendly issues detected."}
+
+## Weekly maintainer report
+
+${workspace.weeklyReport}
+
+## Codex support application pitch
+
+${workspace.applicationPitch}
+`;
 }
 
 function buildIssueReason(issue, category) {
