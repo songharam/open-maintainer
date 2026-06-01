@@ -1,9 +1,7 @@
 name: Deploy GitHub Pages
 
 on:
-  push:
-    branches:
-      - main
+  # Run manually after GitHub Pages is enabled in repository settings.
   workflow_dispatch:
 
 permissions:

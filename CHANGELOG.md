@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 - 2026-06-01
+
+- Changed GitHub Pages deployment to manual workflow dispatch until Pages is enabled in repository settings.
+- Updated README with accurate GitHub Pages setup guidance.
+
 ## 0.2.0 - 2026-06-01
 
 - Added full Markdown export for all generated maintainer outputs.
