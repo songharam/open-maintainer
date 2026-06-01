@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 - 2026-06-01
+
+- Added maintainer priority brief with next actions and risk alerts.
+- Added the `우선순위` tab to make weekly maintainer decisions visible in the demo.
+- Included the priority brief in the full Markdown export.
+
 ## 0.2.1 - 2026-06-01
 
 - Changed GitHub Pages deployment to manual workflow dispatch until Pages is enabled in repository settings.

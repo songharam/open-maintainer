@@ -96,6 +96,7 @@
         <section class="results-panel" aria-label="Generated maintainer workspace">
           <nav class="tabs" aria-label="Result sections">
             <button class="tab is-active" data-tab="issues" type="button">이슈</button>
+            <button class="tab" data-tab="priority" type="button">우선순위</button>
             <button class="tab" data-tab="pr" type="button">PR</button>
             <button class="tab" data-tab="release" type="button">릴리스</button>
             <button class="tab" data-tab="readme" type="button">README</button>
@@ -113,6 +114,26 @@
             </div>
             <div class="issue-columns" id="issueColumns"></div>
           </div>
+
+          <article class="tab-panel priority-panel" id="priority">
+            <div class="panel-heading">
+              <div>
+                <span class="section-kicker">Maintainer brief</span>
+                <h2>이번 주 우선순위</h2>
+              </div>
+            </div>
+            <p class="brief-summary" id="prioritySummary"></p>
+            <div class="brief-grid">
+              <section>
+                <h3>Next actions</h3>
+                <ol class="brief-list" id="nextActions"></ol>
+              </section>
+              <section>
+                <h3>Risk alerts</h3>
+                <ul class="brief-list" id="riskAlerts"></ul>
+              </section>
+            </div>
+          </article>
 
           <article class="tab-panel document-panel" id="pr">
             <div class="document-heading">

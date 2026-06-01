@@ -15,6 +15,7 @@ Use the default URL or paste another GitHub-style URL. Click `생성`.
 Walk through these tabs:
 
 - `이슈`: bug, feature, question, and docs triage
+- `우선순위`: this week's next actions and risk alerts
 - `PR`: review checklist for maintainers
 - `릴리스`: release note draft
 - `README`: improvement suggestions

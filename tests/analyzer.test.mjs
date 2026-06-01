@@ -113,7 +113,11 @@ test("generateMaintainerWorkspace returns every maintainer artifact", () => {
   assert.match(result.weeklyReport, /4 open issues/);
   assert.match(result.applicationPitch, /Codex open source support/i);
   assert.match(result.applicationPitch, /maintainer/i);
+  assert.equal(result.priorityBrief.nextActions.length, 3);
+  assert.match(result.priorityBrief.summary, /This week/);
+  assert.match(result.priorityBrief.riskAlerts.join("\n"), /bug/i);
   assert.match(result.markdownExport, /# Maintainer workspace export/);
+  assert.match(result.markdownExport, /## Maintainer priority brief/);
   assert.match(result.markdownExport, /## PR review checklist/);
   assert.match(result.markdownExport, /## Codex support application pitch/);
 });

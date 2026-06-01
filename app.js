@@ -8,6 +8,9 @@ const repoName = document.querySelector("#repoName");
 const repoUrl = document.querySelector("#repoUrl");
 const issueColumns = document.querySelector("#issueColumns");
 const firstIssueList = document.querySelector("#firstIssueList");
+const prioritySummary = document.querySelector("#prioritySummary");
+const nextActions = document.querySelector("#nextActions");
+const riskAlerts = document.querySelector("#riskAlerts");
 const downloadMarkdown = document.querySelector("#downloadMarkdown");
 const counts = {
   bug: document.querySelector("#bugCount"),
@@ -83,6 +86,7 @@ async function renderWorkspace(repoValue) {
 
   renderIssueColumns(workspace.issueSummary.buckets);
   renderGoodFirstIssues(workspace.goodFirstIssues);
+  renderPriorityBrief(workspace.priorityBrief);
   outputs.pr.textContent = workspace.prChecklist;
   outputs.release.textContent = workspace.releaseNotesDraft;
   outputs.readme.textContent = workspace.readmeSuggestions;
@@ -90,6 +94,24 @@ async function renderWorkspace(repoValue) {
   outputs.report.textContent = workspace.weeklyReport;
   outputs.pitch.textContent = workspace.applicationPitch;
   outputs.export.textContent = workspace.markdownExport;
+}
+
+function renderPriorityBrief(priorityBrief) {
+  prioritySummary.textContent = priorityBrief.summary;
+  nextActions.innerHTML = "";
+  riskAlerts.innerHTML = "";
+
+  for (const action of priorityBrief.nextActions) {
+    const item = document.createElement("li");
+    item.textContent = action;
+    nextActions.append(item);
+  }
+
+  for (const alert of priorityBrief.riskAlerts) {
+    const item = document.createElement("li");
+    item.textContent = alert;
+    riskAlerts.append(item);
+  }
 }
 
 function renderIssueColumns(buckets) {

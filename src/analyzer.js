@@ -70,6 +70,7 @@ export function generateMaintainerWorkspace(repoInput, data) {
   const releases = data.releases || [];
   const issueSummary = summarizeIssues(issues);
   const goodFirstIssues = pickGoodFirstIssues(issues);
+  const priorityBrief = buildPriorityBrief(issues, pullRequests, issueSummary, goodFirstIssues);
   const workspace = {
     repository: {
       ...repository,
@@ -81,6 +82,7 @@ export function generateMaintainerWorkspace(repoInput, data) {
     readmeSuggestions: buildReadmeSuggestions(repository, issueSummary),
     contributingDraft: buildContributingDraft(repository),
     goodFirstIssues,
+    priorityBrief,
     weeklyReport: buildWeeklyReport(repository, issues, pullRequests, issueSummary),
     applicationPitch: buildApplicationPitch(repository, issues, pullRequests, issueSummary)
   };
@@ -254,6 +256,12 @@ function buildMarkdownExport(workspace) {
   const goodFirstLines = workspace.goodFirstIssues
     .map((issue) => `- #${issue.number} ${issue.title} (score ${issue.score})`)
     .join("\n");
+  const actionLines = workspace.priorityBrief.nextActions
+    .map((action) => `- ${action}`)
+    .join("\n");
+  const riskLines = workspace.priorityBrief.riskAlerts
+    .map((risk) => `- ${risk}`)
+    .join("\n");
 
   return `# Maintainer workspace export
 
@@ -284,6 +292,18 @@ ${workspace.contributingDraft}
 
 ${goodFirstLines || "- No beginner-friendly issues detected."}
 
+## Maintainer priority brief
+
+${workspace.priorityBrief.summary}
+
+### Next actions
+
+${actionLines}
+
+### Risk alerts
+
+${riskLines}
+
 ## Weekly maintainer report
 
 ${workspace.weeklyReport}
@@ -292,6 +312,48 @@ ${workspace.weeklyReport}
 
 ${workspace.applicationPitch}
 `;
+}
+
+function buildPriorityBrief(issues, pullRequests, issueSummary, goodFirstIssues) {
+  const sortedBugs = issueSummary.buckets.bug
+    .toSorted((a, b) => (b.comments || 0) - (a.comments || 0));
+  const sortedQuestions = issueSummary.buckets.question
+    .toSorted((a, b) => (b.comments || 0) - (a.comments || 0));
+  const sortedDocs = issueSummary.buckets.docs
+    .toSorted((a, b) => (a.comments || 0) - (b.comments || 0));
+  const topPr = [...pullRequests].sort((a, b) => (b.additions || 0) - (a.additions || 0))[0];
+
+  const nextActions = [
+    sortedBugs[0]
+      ? `Stabilize issue #${sortedBugs[0].number}: ${sortedBugs[0].title}`
+      : "Review the oldest open bug report.",
+    topPr
+      ? `Review PR #${topPr.number}: ${topPr.title}`
+      : "Prepare the next incoming PR review checklist.",
+    goodFirstIssues[0]
+      ? `Promote good first issue #${goodFirstIssues[0].number}: ${goodFirstIssues[0].title}`
+      : sortedDocs[0]
+        ? `Turn docs issue #${sortedDocs[0].number} into a contributor-friendly task.`
+        : "Label one small issue as good first issue."
+  ];
+
+  const riskAlerts = [
+    issueSummary.counts.bug > 0
+      ? `${issueSummary.counts.bug} bug issues need triage before release planning.`
+      : "No bug issues detected in the sample snapshot.",
+    sortedQuestions[0]
+      ? `Question issue #${sortedQuestions[0].number} may indicate missing setup docs.`
+      : "No active question issues detected.",
+    topPr && topPr.additions > 100
+      ? `PR #${topPr.number} is large enough to need careful review (${topPr.additions} additions).`
+      : "No large PR risk detected."
+  ];
+
+  return {
+    summary: `This week, focus on ${issueSummary.counts.bug} bug issues, ${pullRequests.length} active pull requests, and ${goodFirstIssues.length} contributor-friendly tasks.`,
+    nextActions,
+    riskAlerts
+  };
 }
 
 function buildIssueReason(issue, category) {
