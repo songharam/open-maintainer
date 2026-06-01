@@ -1,6 +1,6 @@
 # Security Policy
 
-Open Maintainer Workbench currently runs entirely in the browser with sample data. It does not require a GitHub token or external API credentials.
+Open Maintainer Workbench runs entirely in the browser. It can read public GitHub repository data through unauthenticated GitHub REST API requests and falls back to sample data when GitHub API access fails. It does not require a GitHub token or external API credentials.
 
 ## Supported Versions
 
@@ -12,7 +12,7 @@ If you find a security issue, open a private report through GitHub security advi
 
 ## Token Handling Direction
 
-Future GitHub API support must follow these rules:
+Any future authenticated GitHub API support must follow these rules:
 
 - Never hard-code tokens in source files.
 - Prefer short-lived or user-provided tokens.

@@ -4,7 +4,7 @@ Use this flow when showing the project for the Codex open source support program
 
 ## 1. Open the Workbench
 
-Open the deployed site or local static server. Point out that the app starts in sample mode, so reviewers do not need a GitHub token.
+Open the deployed site or local static server. Point out that the app starts in live GitHub mode for public repositories and still does not need a GitHub token. If GitHub API access fails, the app shows the reason and falls back to sample data.
 
 ## 2. Enter a Repository URL
 

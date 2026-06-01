@@ -28,7 +28,7 @@ flowchart LR
 - `src/analyzer.js`: repository identity parsing, issue classification, good first issue scoring, and maintainer artifact generation.
 - `src/sample-data.js`: no-auth demo dataset.
 - `src/providers/sample-provider.js`: returns the demo snapshot.
-- `src/providers/github-provider.js`: future GitHub API integration boundary.
+- `src/providers/github-provider.js`: live GitHub API provider for public repository data.
 - `tests/analyzer.test.mjs`: behavior tests for parsing, classification, and artifact generation.
 
 ## Data Shape
