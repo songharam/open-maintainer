@@ -60,6 +60,8 @@ Then refresh:
 - `screenshots/maintainer-workbench-mobile.png`
 - `outputs/maintainer-workbench-netlify.zip`
 
+Use `?demo=sample` for screenshots when the default repository has no open issues. This keeps the README visually useful while the live mode remains available for real public repositories.
+
 ## Application Positioning
 
 Frame the repository as an open-source maintainer tool first. The Codex/OpenAI support program can be mentioned as one useful support path, but the project should still make sense for maintainers outside that program.

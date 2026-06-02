@@ -108,6 +108,7 @@ h3 {
 .status-pill,
 .copy-button,
 .tab,
+.mode-button,
 .repo-form button {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -199,6 +200,25 @@ h3 {
 .copy-button {
   min-height: 38px;
   padding: 0 14px;
+}
+
+.mode-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: -4px 0 14px;
+}
+
+.mode-button {
+  min-height: 38px;
+  background: #08090b;
+  color: var(--muted);
+  padding: 0 12px;
+}
+
+.mode-button.is-active {
+  background: var(--text);
+  color: #0a0b0d;
 }
 
 .repo-card {
@@ -599,6 +619,10 @@ h3 {
   .tab {
     min-height: 36px;
     padding: 0 10px;
+  }
+
+  .mode-switch {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .issue-column {

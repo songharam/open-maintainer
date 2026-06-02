@@ -8,11 +8,12 @@ Open Maintainer Workbench는 오픈소스 메인테이너가 반복적으로 수
 
 오픈소스 프로젝트 메인테이너는 코드를 쓰는 시간만큼 이슈 triage, PR 리뷰, 릴리스 노트, README/CONTRIBUTING 문서 정리에 많은 시간을 씁니다. 특히 작은 프로젝트일수록 자동화 도구를 붙이는 비용이 커서, 좋은 워크플로를 갖추기 전에 유지보수 부담이 먼저 커집니다.
 
-이 앱은 GitHub 저장소 URL 하나를 기준으로 메인테이너가 바로 사용할 수 있는 결과물을 생성합니다. 현재는 공개 GitHub API로 Issues, Pull Requests, Releases를 읽고, API 제한이나 네트워크 문제가 있으면 예시 데이터로 fallback하므로 심사자가 즉시 체험할 수 있습니다. 내부 구조는 provider 방식이라 나중에 토큰 기반 접근이나 Codex/API 분석을 붙이기 쉽습니다.
+이 앱은 GitHub 저장소 URL 하나를 기준으로 메인테이너가 바로 사용할 수 있는 결과물을 생성합니다. 현재는 공개 GitHub API로 Issues, Pull Requests, Releases를 읽고, API 제한이나 네트워크 문제가 있으면 예시 데이터로 fallback하므로 심사자가 즉시 체험할 수 있습니다. 또한 `Sample demo` 모드를 제공해 대상 저장소가 비어 있어도 풍부한 워크로드 화면을 바로 볼 수 있습니다. 내부 구조는 provider 방식이라 나중에 토큰 기반 접근이나 Codex/API 분석을 붙이기 쉽습니다.
 
 ## 데모에서 보여줄 점
 
 - 초보자도 URL 입력 후 `생성` 버튼만 누르면 결과를 확인할 수 있습니다.
+- `Live GitHub`와 `Sample demo`를 전환해 실제 공개 저장소와 예시 워크로드를 모두 보여줄 수 있습니다.
 - 이슈를 `bug`, `feature`, `question`, `docs`로 나눠 유지보수 우선순위를 빠르게 파악합니다.
 - `우선순위` 탭에서 이번 주에 먼저 처리할 액션과 리스크 알림을 확인할 수 있습니다.
 - PR 리뷰 체크리스트, GitHub 저장소 운영 체크리스트, 릴리스 노트, README 개선안, CONTRIBUTING.md 초안, good first issue 추천, 주간 리포트를 한 화면에서 전환해 볼 수 있습니다.

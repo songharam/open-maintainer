@@ -4,11 +4,11 @@ Use this flow when showing the project as a practical open-source maintainer wor
 
 ## 1. Open the Workbench
 
-Open the deployed site or local static server. Point out that the app starts in live GitHub mode for public repositories and still does not need a GitHub token. If GitHub API access fails, the app shows the reason and falls back to sample data.
+Open the deployed site or local static server. Point out that the app starts in live GitHub mode for public repositories and still does not need a GitHub token. Then switch to `Sample demo` or open `?demo=sample` to show a richer built-in maintainer workload without depending on GitHub API availability.
 
 ## 2. Enter a Repository URL
 
-Use the default URL or paste another GitHub-style URL. Click `생성`.
+Use the default URL or paste another GitHub-style URL. Click `생성`. Use `Live GitHub` for real public repository data and `Sample demo` when you need predictable demo data.
 
 ## 3. Show Maintainer Outputs
 
@@ -28,4 +28,4 @@ Walk through these tabs:
 
 ## 4. Explain the Extension Path
 
-The current demo already reads public GitHub Issues, Pull Requests, changed files, and Releases through `src/providers/github-provider.js`. If the API is unavailable, it falls back to sample data so the demo remains reviewable. The next step is optional token support and Codex/API-assisted summaries grounded in real repository history.
+The current demo already reads public GitHub Issues, Pull Requests, changed files, and Releases through `src/providers/github-provider.js`. It also has an explicit `Sample demo` mode so reviewers can see a populated workflow even when the target repository is empty. The next step is optional token support and Codex/API-assisted summaries grounded in real repository history.

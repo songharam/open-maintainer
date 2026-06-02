@@ -11,6 +11,7 @@ Open Maintainer Workbench는 오픈소스 메인테이너가 반복적으로 처
 
 - Netlify 배포: `maintainer-workbench-netlify.zip`을 Netlify에 업로드하면 바로 실행됩니다.
 - GitHub Pages 선택 배포: 저장소 Settings에서 Pages source를 GitHub Actions로 설정한 뒤 `Deploy GitHub Pages` workflow를 수동 실행하세요.
+- Sample demo: 앱에서 `Sample demo`를 선택하거나 URL에 `?demo=sample`을 붙이면 GitHub API 없이 풍부한 예시 워크로드를 바로 볼 수 있습니다.
 
 ## 핵심 기능
 
@@ -26,6 +27,7 @@ Open Maintainer Workbench는 오픈소스 메인테이너가 반복적으로 처
 - 프로젝트 공유 및 지원용 요약 생성
 - 전체 산출물 Markdown 복사 및 다운로드
 - 공개 GitHub 저장소의 Issues, Pull Requests, Releases live 읽기
+- `Live GitHub` / `Sample demo` 데이터 모드 전환
 - API 실패, rate limit, 빈 저장소 상태 표시
 - GitHub API 실패 시 예시 데이터 fallback
 
@@ -69,12 +71,15 @@ python3 -m http.server 4173
 ├── styles.css
 ├── src
 │   ├── analyzer.js
+│   ├── demo-mode.js
 │   ├── sample-data.js
 │   └── providers
 │       ├── github-provider.js
 │       └── sample-provider.js
 ├── tests
-│   └── analyzer.test.mjs
+│   ├── analyzer.test.mjs
+│   ├── demo-mode.test.mjs
+│   └── github-provider.test.mjs
 ├── docs
 │   ├── codex-application-copy.md
 │   ├── codex-application-summary.md

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.0 - 2026-06-02
+
+- Added explicit `Live GitHub` and `Sample demo` data modes.
+- Added `?demo=sample` support so reviewers can open a populated static demo without relying on GitHub API availability.
+- Added tests for demo mode query parsing and UI labels.
+- Updated README, demo script, and architecture notes for the new data mode flow.
+
 ## 0.5.0 - 2026-06-02
 
 - Added a GitHub repository health checklist artifact for repo profile, templates, labels, CI, and release readiness.

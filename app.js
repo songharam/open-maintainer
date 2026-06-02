@@ -1,4 +1,5 @@
 import { extractRepoIdentity, generateMaintainerWorkspace } from "./src/analyzer.js";
+import { DATA_MODES, resolveInitialDataMode } from "./src/demo-mode.js";
 import {
   GitHubProviderError,
   getRepositorySnapshotFromGitHub
@@ -7,6 +8,7 @@ import { getRepositorySnapshot } from "./src/providers/sample-provider.js";
 
 const form = document.querySelector("#repoForm");
 const repoInput = document.querySelector("#repoInput");
+const modeButtons = document.querySelectorAll("[data-mode]");
 const providerStatus = document.querySelector("#providerStatus");
 const repoName = document.querySelector("#repoName");
 const repoUrl = document.querySelector("#repoUrl");
@@ -35,6 +37,7 @@ const outputs = {
 };
 
 let latestWorkspace;
+let currentDataMode = resolveInitialDataMode(window.location.search);
 
 const categoryLabels = {
   bug: "Bug",
@@ -46,6 +49,15 @@ const categoryLabels = {
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   await renderWorkspace(repoInput.value);
+});
+
+modeButtons.forEach((button) => {
+  button.addEventListener("click", async () => {
+    currentDataMode = button.dataset.mode;
+    updateModeButtons();
+    updateDemoUrl(currentDataMode);
+    await renderWorkspace(repoInput.value);
+  });
 });
 
 document.querySelectorAll(".tab").forEach((button) => {
@@ -74,14 +86,19 @@ downloadMarkdown.addEventListener("click", () => {
   URL.revokeObjectURL(link.href);
 });
 
+updateModeButtons();
 await renderWorkspace(repoInput.value);
 
 async function renderWorkspace(repoValue) {
-  providerStatus.textContent = "Loading GitHub";
-  providerNotice.textContent = "공개 GitHub 저장소 데이터를 불러오는 중입니다.";
+  providerStatus.textContent =
+    currentDataMode === DATA_MODES.sample ? "Loading sample" : "Loading GitHub";
+  providerNotice.textContent =
+    currentDataMode === DATA_MODES.sample
+      ? "내장 샘플 메인테이너 워크로드를 불러오는 중입니다."
+      : "공개 GitHub 저장소 데이터를 불러오는 중입니다.";
   providerNotice.dataset.kind = "loading";
   const repoIdentity = extractRepoIdentity(repoValue);
-  const { snapshot, notice } = await loadRepositorySnapshot(repoIdentity);
+  const { snapshot, notice, sourceMode } = await loadRepositorySnapshot(repoIdentity, currentDataMode);
   const workspace = generateMaintainerWorkspace(repoValue, snapshot);
   latestWorkspace = workspace;
 
@@ -104,26 +121,37 @@ async function renderWorkspace(repoValue) {
   outputs.report.textContent = workspace.weeklyReport;
   outputs.pitch.textContent = workspace.applicationPitch;
   outputs.export.textContent = workspace.markdownExport;
-  renderProviderStatus(snapshot, notice);
+  renderProviderStatus(snapshot, notice, sourceMode);
 }
 
-async function loadRepositorySnapshot(repoIdentity) {
+async function loadRepositorySnapshot(repoIdentity, mode) {
+  if (mode === DATA_MODES.sample) {
+    const snapshot = await getRepositorySnapshot();
+    return {
+      snapshot,
+      notice: "Built-in sample demo is active. No GitHub API request is required.",
+      sourceMode: DATA_MODES.sample
+    };
+  }
+
   try {
     const snapshot = await getRepositorySnapshotFromGitHub(repoIdentity);
     return {
       snapshot,
-      notice: snapshot.status.message
+      notice: snapshot.status.message,
+      sourceMode: DATA_MODES.live
     };
   } catch (error) {
     const fallback = await getRepositorySnapshot();
     return {
       snapshot: fallback,
-      notice: `${providerErrorMessage(error)} Sample data fallback is active.`
+      notice: `${providerErrorMessage(error)} Sample data fallback is active.`,
+      sourceMode: DATA_MODES.live
     };
   }
 }
 
-function renderProviderStatus(snapshot, notice) {
+function renderProviderStatus(snapshot, notice, sourceMode) {
   if (snapshot.provider === "github") {
     providerStatus.textContent = snapshot.status.kind === "empty" ? "Live GitHub empty" : "Live GitHub";
     providerNotice.dataset.kind = snapshot.status.kind;
@@ -131,9 +159,27 @@ function renderProviderStatus(snapshot, notice) {
     return;
   }
 
-  providerStatus.textContent = "Sample fallback";
-  providerNotice.dataset.kind = "fallback";
+  providerStatus.textContent =
+    sourceMode === DATA_MODES.sample ? "Sample demo" : "Sample fallback";
+  providerNotice.dataset.kind = sourceMode === DATA_MODES.sample ? "sample" : "fallback";
   providerNotice.textContent = notice;
+}
+
+function updateModeButtons() {
+  modeButtons.forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.mode === currentDataMode);
+  });
+}
+
+function updateDemoUrl(mode) {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("mode");
+  if (mode === DATA_MODES.sample) {
+    url.searchParams.set("demo", DATA_MODES.sample);
+  } else {
+    url.searchParams.delete("demo");
+  }
+  window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
 }
 
 function providerErrorMessage(error) {

@@ -26,10 +26,12 @@ flowchart LR
 - `styles.css`: black-based responsive interface.
 - `app.js`: browser UI orchestration.
 - `src/analyzer.js`: repository identity parsing, issue classification, good first issue scoring, and maintainer artifact generation.
+- `src/demo-mode.js`: deterministic helpers for `Live GitHub` and `Sample demo` mode selection.
 - `src/sample-data.js`: no-auth demo dataset.
 - `src/providers/sample-provider.js`: returns the demo snapshot.
 - `src/providers/github-provider.js`: live GitHub API provider for public repository data.
 - `tests/analyzer.test.mjs`: behavior tests for parsing, classification, and artifact generation.
+- `tests/demo-mode.test.mjs`: tests for demo query parameter and mode label handling.
 - `tests/github-provider.test.mjs`: provider tests for normalization and API error handling.
 
 ## Data Shape
