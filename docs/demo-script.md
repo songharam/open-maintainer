@@ -24,6 +24,7 @@ Walk through these tabs:
 - `Good first`: beginner-friendly issue recommendations
 - `리포트`: weekly maintainer report
 - `프로젝트 요약`: project summary for sharing or support applications
+- `지원서 팩`: 500-character-ready repository fit, API credit plan, and additional context drafts
 - `Export`: all generated outputs as one Markdown document
 
 ## 4. Explain the Extension Path

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.0 - 2026-06-04
+
+- Added a `지원서 팩` tab with repository fit, interested areas, API credit plan, and additional context drafts.
+- Kept application answer drafts under the 500-character form limit through analyzer tests.
+- Included the support application pack in the full Markdown export.
+- Updated README, demo script, and architecture notes for the new support pack workflow.
+
 ## 0.6.0 - 2026-06-02
 
 - Added explicit `Live GitHub` and `Sample demo` data modes.

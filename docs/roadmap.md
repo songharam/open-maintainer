@@ -6,6 +6,7 @@
 - Improve application pitch copy.
 - Add GitHub-ready project templates and CI.
 - Add a repository health checklist for GitHub profile, labels, templates, CI, and release readiness. Completed in `0.5.0`.
+- Add a support application answer pack with 500-character-ready drafts. Completed in `0.7.0`.
 
 ## Phase 2: GitHub API Provider
 

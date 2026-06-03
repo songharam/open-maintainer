@@ -71,6 +71,13 @@ export function generateMaintainerWorkspace(repoInput, data) {
   const issueSummary = summarizeIssues(issues);
   const goodFirstIssues = pickGoodFirstIssues(issues);
   const priorityBrief = buildPriorityBrief(issues, pullRequests, issueSummary, goodFirstIssues);
+  const applicationAnswers = buildApplicationAnswers(
+    repository,
+    issues,
+    pullRequests,
+    issueSummary,
+    goodFirstIssues
+  );
   const workspace = {
     repository: {
       ...repository,
@@ -91,7 +98,9 @@ export function generateMaintainerWorkspace(repoInput, data) {
     goodFirstIssues,
     priorityBrief,
     weeklyReport: buildWeeklyReport(repository, issues, pullRequests, issueSummary),
-    applicationPitch: buildApplicationPitch(repository, issues, pullRequests, issueSummary)
+    applicationPitch: buildApplicationPitch(repository, issues, pullRequests, issueSummary),
+    applicationAnswers,
+    supportApplicationPack: buildSupportApplicationPack(applicationAnswers)
   };
 
   return {
@@ -280,6 +289,42 @@ Codex/API support would help the project learn repository-specific labels and re
 - Docs: ${issueSummary.counts.docs}`;
 }
 
+function buildApplicationAnswers(repository, issues, pullRequests, issueSummary, goodFirstIssues) {
+  return {
+    repositoryFit: `Open Maintainer Workbench targets a real open-source maintenance burden: issue triage, PR review preparation, release notes, contributor onboarding, repo health checks, and weekly reports. The repo is early, but it already has live public GitHub mode, sample demo mode, CI, tests, MIT license, docs, screenshots, and exportable maintainer artifacts for ${repository.owner}/${repository.repo}.`,
+    interestAreas:
+      "Coding, code review, maintainer automation, release workflows, contributor onboarding, and API credits.",
+    apiCreditPlan: `I plan to use API credits to improve repository-aware maintainer workflows: classify ${issues.length} issues more accurately, summarize PR review risks across ${pullRequests.length} active PRs, draft release notes, improve README/CONTRIBUTING suggestions, and recommend good first issues. The goal is to reduce repetitive maintainer work while keeping a static-first fallback.`,
+    additionalContext: `The demo is intentionally practical: it works with public GitHub data, has a no-token sample mode, and exports Markdown that maintainers can reuse. Current snapshot: ${issueSummary.counts.bug} bugs, ${issueSummary.counts.docs} docs items, and ${goodFirstIssues.length} good first issue candidates. Support would help turn it into a stronger assistant for small maintainers.`
+  };
+}
+
+function buildSupportApplicationPack(answers) {
+  return `# Support application pack
+
+## Repository fit
+
+${answers.repositoryFit}
+
+Characters: ${answers.repositoryFit.length}/500
+
+## Interested areas
+
+${answers.interestAreas}
+
+## API credit plan
+
+${answers.apiCreditPlan}
+
+Characters: ${answers.apiCreditPlan.length}/500
+
+## Additional context
+
+${answers.additionalContext}
+
+Characters: ${answers.additionalContext.length}/500`;
+}
+
 function buildMarkdownExport(workspace) {
   const issueLines = Object.entries(workspace.issueSummary.buckets)
     .flatMap(([category, issues]) =>
@@ -349,6 +394,10 @@ ${workspace.weeklyReport}
 ## Project summary
 
 ${workspace.applicationPitch}
+
+## Support application pack
+
+${workspace.supportApplicationPack}
 `;
 }
 

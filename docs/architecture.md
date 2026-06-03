@@ -46,7 +46,7 @@ Providers should return a repository snapshot:
 }
 ```
 
-The analyzer receives that snapshot and returns UI-ready strings and structured lists, including issue triage, PR review checklist, repository health checklist, release notes, README suggestions, CONTRIBUTING draft, good first issue recommendations, weekly report, project summary, and Markdown export. The UI does not need to know whether data came from sample mode or GitHub API mode.
+The analyzer receives that snapshot and returns UI-ready strings and structured lists, including issue triage, PR review checklist, repository health checklist, release notes, README suggestions, CONTRIBUTING draft, good first issue recommendations, weekly report, project summary, support application pack, and Markdown export. The UI does not need to know whether data came from sample mode or GitHub API mode.
 
 ## Design Constraints
 
