@@ -85,6 +85,27 @@ test("getRepositorySnapshotFromGitHub fetches public GitHub data and normalizes 
   assert.ok(calls.every((call) => !("Authorization" in call.init.headers)));
 });
 
+test("getRepositorySnapshotFromGitHub sends an optional token as a bearer header", async () => {
+  const calls = [];
+  const fetcher = async (url, init) => {
+    calls.push({ url, init });
+
+    if (url.includes("/issues?")) return jsonResponse([]);
+    if (url.includes("/pulls?")) return jsonResponse([]);
+    if (url.includes("/releases?")) return jsonResponse([]);
+
+    throw new Error(`Unexpected URL: ${url}`);
+  };
+
+  await getRepositorySnapshotFromGitHub(
+    { owner: "octo", repo: "demo" },
+    { fetcher, token: "ghp_example" }
+  );
+
+  assert.equal(calls.length, 3);
+  assert.ok(calls.every((call) => call.init.headers.Authorization === "Bearer ghp_example"));
+});
+
 test("getRepositorySnapshotFromGitHub marks empty public repositories", async () => {
   const fetcher = async () => jsonResponse([]);
 

@@ -8,7 +8,7 @@ Open the deployed site or local static server. Point out that the app starts in 
 
 ## 2. Enter a Repository URL
 
-Use the default URL or paste another GitHub-style URL. Click `생성`. Use `Live GitHub` for real public repository data and `Sample demo` when you need predictable demo data.
+Use the default URL or paste another GitHub-style URL. Click `생성`. Use `Live GitHub` for real public repository data and `Sample demo` when you need predictable demo data. Point out that the optional GitHub token field is memory-only and not required for the demo.
 
 ## 3. Show Maintainer Outputs
 
@@ -29,4 +29,4 @@ Walk through these tabs:
 
 ## 4. Explain the Extension Path
 
-The current demo already reads public GitHub Issues, Pull Requests, changed files, and Releases through `src/providers/github-provider.js`. It also has an explicit `Sample demo` mode so reviewers can see a populated workflow even when the target repository is empty. The next step is optional token support and Codex/API-assisted summaries grounded in real repository history.
+The current demo already reads public GitHub Issues, Pull Requests, changed files, and Releases through `src/providers/github-provider.js`. It also has an explicit `Sample demo` mode so reviewers can see a populated workflow even when the target repository is empty. Optional token support is in-memory only. The next step is Codex/API-assisted summaries grounded in real repository history.

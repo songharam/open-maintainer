@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0 - 2026-06-04
+
+- Added optional in-memory GitHub token support for live provider requests.
+- Added provider tests that verify bearer token headers are sent only when a token is supplied.
+- Updated UI copy, README, SECURITY, and GitHub API docs to state that tokens are not stored.
+
 ## 0.7.0 - 2026-06-04
 
 - Added a `지원서 팩` tab with repository fit, interested areas, API credit plan, and additional context drafts.

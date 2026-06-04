@@ -7,7 +7,9 @@ The app now includes a live GitHub provider in `src/providers/github-provider.js
 The user provides:
 
 - GitHub repository URL or `owner/repo`
-The current implementation does not store or require tokens. It uses unauthenticated REST API requests for public repositories.
+- Optional GitHub token for the current browser request
+
+The implementation does not require a token for public repositories. When a token is provided, it is passed as a `Bearer` header for GitHub API requests and is not stored.
 
 ## API Reads
 
@@ -55,7 +57,8 @@ GitHub responses should be normalized into:
 ## Safety Rules
 
 - Keep sample mode available without credentials.
-- Do not store tokens persistently by default.
+- Do not store tokens persistently.
+- Do not include tokens in URLs, local storage, logs, Markdown export, or sample data.
 - Show clear error states for rate limits and missing permissions.
 - Keep fetch logic inside `src/providers/github-provider.js`.
 

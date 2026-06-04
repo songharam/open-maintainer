@@ -8,6 +8,7 @@ import { getRepositorySnapshot } from "./src/providers/sample-provider.js";
 
 const form = document.querySelector("#repoForm");
 const repoInput = document.querySelector("#repoInput");
+const tokenInput = document.querySelector("#tokenInput");
 const modeButtons = document.querySelectorAll("[data-mode]");
 const providerStatus = document.querySelector("#providerStatus");
 const repoName = document.querySelector("#repoName");
@@ -99,7 +100,11 @@ async function renderWorkspace(repoValue) {
       : "공개 GitHub 저장소 데이터를 불러오는 중입니다.";
   providerNotice.dataset.kind = "loading";
   const repoIdentity = extractRepoIdentity(repoValue);
-  const { snapshot, notice, sourceMode } = await loadRepositorySnapshot(repoIdentity, currentDataMode);
+  const { snapshot, notice, sourceMode } = await loadRepositorySnapshot(
+    repoIdentity,
+    currentDataMode,
+    tokenInput.value
+  );
   const workspace = generateMaintainerWorkspace(repoValue, snapshot);
   latestWorkspace = workspace;
 
@@ -126,7 +131,7 @@ async function renderWorkspace(repoValue) {
   renderProviderStatus(snapshot, notice, sourceMode);
 }
 
-async function loadRepositorySnapshot(repoIdentity, mode) {
+async function loadRepositorySnapshot(repoIdentity, mode, token) {
   if (mode === DATA_MODES.sample) {
     const snapshot = await getRepositorySnapshot();
     return {
@@ -137,10 +142,13 @@ async function loadRepositorySnapshot(repoIdentity, mode) {
   }
 
   try {
-    const snapshot = await getRepositorySnapshotFromGitHub(repoIdentity);
+    const cleanToken = String(token || "").trim();
+    const snapshot = await getRepositorySnapshotFromGitHub(repoIdentity, { token: cleanToken });
     return {
       snapshot,
-      notice: snapshot.status.message,
+      notice: cleanToken
+        ? `${snapshot.status.message} Optional token was used for this request and was not stored.`
+        : snapshot.status.message,
       sourceMode: DATA_MODES.live
     };
   } catch (error) {

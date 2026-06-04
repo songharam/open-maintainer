@@ -28,6 +28,7 @@ Open Maintainer Workbench는 오픈소스 메인테이너가 반복적으로 처
 - 500자 제한에 맞춘 지원 신청 답변 패키지 생성
 - 전체 산출물 Markdown 복사 및 다운로드
 - 공개 GitHub 저장소의 Issues, Pull Requests, Releases live 읽기
+- 선택적 GitHub token 입력 지원: 브라우저 메모리에서만 사용하고 저장하지 않음
 - `Live GitHub` / `Sample demo` 데이터 모드 전환
 - API 실패, rate limit, 빈 저장소 상태 표시
 - GitHub API 실패 시 예시 데이터 fallback

@@ -15,6 +15,7 @@ export class GitHubProviderError extends Error {
 
 export async function getRepositorySnapshotFromGitHub(repoIdentity, options = {}) {
   const fetcher = options.fetcher || globalThis.fetch;
+  const requestHeaders = buildRequestHeaders(options.token);
 
   if (!fetcher) {
     throw new GitHubProviderError("no-fetch", "A fetch implementation is required.");
@@ -24,13 +25,15 @@ export async function getRepositorySnapshotFromGitHub(repoIdentity, options = {}
   const repo = encodeURIComponent(repoIdentity.repo);
   const baseUrl = `${GITHUB_API_BASE}/repos/${owner}/${repo}`;
   const [issuesPayload, pullsPayload, releasesPayload] = await Promise.all([
-    requestJson(`${baseUrl}/issues?state=open&per_page=30&sort=updated&direction=desc`, fetcher),
-    requestJson(`${baseUrl}/pulls?state=open&per_page=10&sort=updated&direction=desc`, fetcher),
-    requestJson(`${baseUrl}/releases?per_page=5`, fetcher)
+    requestJson(`${baseUrl}/issues?state=open&per_page=30&sort=updated&direction=desc`, fetcher, requestHeaders),
+    requestJson(`${baseUrl}/pulls?state=open&per_page=10&sort=updated&direction=desc`, fetcher, requestHeaders),
+    requestJson(`${baseUrl}/releases?per_page=5`, fetcher, requestHeaders)
   ]);
 
   const pullRequests = await Promise.all(
-    pullsPayload.map((pullRequest) => normalizePullRequest(baseUrl, pullRequest, fetcher))
+    pullsPayload.map((pullRequest) =>
+      normalizePullRequest(baseUrl, pullRequest, fetcher, requestHeaders)
+    )
   );
   const issues = issuesPayload
     .filter((issue) => !issue.pull_request)
@@ -47,10 +50,10 @@ export async function getRepositorySnapshotFromGitHub(repoIdentity, options = {}
   };
 }
 
-async function requestJson(url, fetcher) {
+async function requestJson(url, fetcher, headers) {
   let response;
   try {
-    response = await fetcher(url, { headers: REQUEST_HEADERS });
+    response = await fetcher(url, { headers });
   } catch (error) {
     throw new GitHubProviderError(
       "network",
@@ -110,8 +113,12 @@ function normalizeIssue(issue) {
   };
 }
 
-async function normalizePullRequest(baseUrl, pullRequest, fetcher) {
-  const files = await requestJson(`${baseUrl}/pulls/${pullRequest.number}/files?per_page=30`, fetcher);
+async function normalizePullRequest(baseUrl, pullRequest, fetcher, headers) {
+  const files = await requestJson(
+    `${baseUrl}/pulls/${pullRequest.number}/files?per_page=30`,
+    fetcher,
+    headers
+  );
 
   return {
     number: pullRequest.number,
@@ -157,6 +164,15 @@ function buildStatus(issues, pullRequests, releases) {
     kind: "live",
     message: `Loaded ${issues.length} issues, ${pullRequests.length} pull requests, and ${releases.length} releases from GitHub.`
   };
+}
+
+function buildRequestHeaders(token) {
+  const headers = { ...REQUEST_HEADERS };
+  const cleanToken = String(token || "").trim();
+  if (cleanToken) {
+    headers.Authorization = `Bearer ${cleanToken}`;
+  }
+  return headers;
 }
 
 function sum(items, key) {
