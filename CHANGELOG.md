@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.1 - 2026-06-06
+
+- Updated GitHub Actions workflows to Node.js 24-compatible action majors.
+- Kept GitHub Pages deployment manual until Pages is enabled in repository settings.
+
 ## 0.9.0 - 2026-06-06
 
 - Added an `Application readiness` output with score, evidence checklist, and next actions.
