@@ -78,6 +78,13 @@ export function generateMaintainerWorkspace(repoInput, data) {
     issueSummary,
     goodFirstIssues
   );
+  const applicationReadiness = buildApplicationReadiness(
+    issues,
+    pullRequests,
+    releases,
+    goodFirstIssues,
+    applicationAnswers
+  );
   const workspace = {
     repository: {
       ...repository,
@@ -100,7 +107,8 @@ export function generateMaintainerWorkspace(repoInput, data) {
     weeklyReport: buildWeeklyReport(repository, issues, pullRequests, issueSummary),
     applicationPitch: buildApplicationPitch(repository, issues, pullRequests, issueSummary),
     applicationAnswers,
-    supportApplicationPack: buildSupportApplicationPack(applicationAnswers)
+    supportApplicationPack: buildSupportApplicationPack(applicationAnswers),
+    applicationReadiness
   };
 
   return {
@@ -325,6 +333,76 @@ ${answers.additionalContext}
 Characters: ${answers.additionalContext.length}/500`;
 }
 
+function buildApplicationReadiness(issues, pullRequests, releases, goodFirstIssues, answers) {
+  const checks = [
+    {
+      label: "Issue triage has representative data",
+      passed: issues.length > 0,
+      points: 15
+    },
+    {
+      label: "PR review workflow has active context",
+      passed: pullRequests.length > 0,
+      points: 15
+    },
+    {
+      label: "Release note workflow has release history",
+      passed: releases.length > 0,
+      points: 10
+    },
+    {
+      label: "Good first issue path is visible",
+      passed: goodFirstIssues.length > 0,
+      points: 15
+    },
+    {
+      label: "Repository health checklist is available",
+      passed: true,
+      points: 15
+    },
+    {
+      label: "Support form answers stay under 500 characters",
+      passed: [answers.repositoryFit, answers.apiCreditPlan, answers.additionalContext].every(
+        (answer) => answer.length <= 500
+      ),
+      points: 15
+    },
+    {
+      label: "Markdown export is ready for review",
+      passed: true,
+      points: 15
+    }
+  ];
+  const score = checks
+    .filter((check) => check.passed)
+    .reduce((total, check) => total + check.points, 0);
+  const status = score >= 90 ? "Ready to submit" : score >= 70 ? "Needs small polish" : "Needs more evidence";
+  const passedLines = checks
+    .map((check) => `- [${check.passed ? "x" : " "}] ${check.label} (${check.points} pts)`)
+    .join("\n");
+  const nextActions = checks
+    .filter((check) => !check.passed)
+    .map((check) => `- Add evidence for: ${check.label}`)
+    .join("\n") || "- Keep README, screenshots, and CI green until review.";
+
+  return {
+    score,
+    status,
+    report: `# Application readiness score
+
+Score: ${score}/100
+Status: ${status}
+
+## Evidence checklist
+
+${passedLines}
+
+## Next actions
+
+${nextActions}`
+  };
+}
+
 function buildMarkdownExport(workspace) {
   const issueLines = Object.entries(workspace.issueSummary.buckets)
     .flatMap(([category, issues]) =>
@@ -398,6 +476,10 @@ ${workspace.applicationPitch}
 ## Support application pack
 
 ${workspace.supportApplicationPack}
+
+## Application readiness
+
+${workspace.applicationReadiness.report}
 `;
 }
 

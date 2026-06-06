@@ -117,6 +117,9 @@ test("generateMaintainerWorkspace returns every maintainer artifact", () => {
   assert.match(result.applicationPitch, /maintainer/i);
   assert.match(result.supportApplicationPack, /Repository fit/);
   assert.match(result.supportApplicationPack, /API credit plan/);
+  assert.equal(result.applicationReadiness.score, 100);
+  assert.match(result.applicationReadiness.report, /Application readiness score/);
+  assert.match(result.applicationReadiness.report, /Ready to submit/);
   assert.ok(result.applicationAnswers.repositoryFit.length <= 500);
   assert.ok(result.applicationAnswers.apiCreditPlan.length <= 500);
   assert.ok(result.applicationAnswers.additionalContext.length <= 500);
@@ -129,4 +132,5 @@ test("generateMaintainerWorkspace returns every maintainer artifact", () => {
   assert.match(result.markdownExport, /## PR review checklist/);
   assert.match(result.markdownExport, /## Project summary/);
   assert.match(result.markdownExport, /## Support application pack/);
+  assert.match(result.markdownExport, /## Application readiness/);
 });

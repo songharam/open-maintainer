@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.0 - 2026-06-06
+
+- Added an `Application readiness` output with score, evidence checklist, and next actions.
+- Added a `Readiness` tab and included the readiness report in Markdown export.
+- Added analyzer tests for readiness scoring and submission status.
+- Updated README, demo script, architecture, and roadmap for the readiness workflow.
+
 ## 0.8.0 - 2026-06-04
 
 - Added optional in-memory GitHub token support for live provider requests.

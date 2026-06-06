@@ -35,6 +35,7 @@ const outputs = {
   report: document.querySelector("#reportOutput"),
   pitch: document.querySelector("#pitchOutput"),
   support: document.querySelector("#supportOutput"),
+  readiness: document.querySelector("#readinessOutput"),
   export: document.querySelector("#exportOutput")
 };
 
@@ -127,6 +128,7 @@ async function renderWorkspace(repoValue) {
   outputs.report.textContent = workspace.weeklyReport;
   outputs.pitch.textContent = workspace.applicationPitch;
   outputs.support.textContent = workspace.supportApplicationPack;
+  outputs.readiness.textContent = workspace.applicationReadiness.report;
   outputs.export.textContent = workspace.markdownExport;
   renderProviderStatus(snapshot, notice, sourceMode);
 }

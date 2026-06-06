@@ -26,6 +26,7 @@ Open Maintainer Workbench는 오픈소스 메인테이너가 반복적으로 처
 - 메인테이너 주간 리포트 생성
 - 프로젝트 공유 및 지원용 요약 생성
 - 500자 제한에 맞춘 지원 신청 답변 패키지 생성
+- Application readiness score and submission checklist
 - 전체 산출물 Markdown 복사 및 다운로드
 - 공개 GitHub 저장소의 Issues, Pull Requests, Releases live 읽기
 - 선택적 GitHub token 입력 지원: 브라우저 메모리에서만 사용하고 저장하지 않음
