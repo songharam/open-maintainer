@@ -65,12 +65,21 @@ export function classifyIssue(issue) {
 
 export function generateMaintainerWorkspace(repoInput, data) {
   const repository = extractRepoIdentity(repoInput);
+  const repositorySignals = data.repository || {};
   const issues = data.issues || [];
   const pullRequests = data.pullRequests || [];
   const releases = data.releases || [];
   const issueSummary = summarizeIssues(issues);
   const goodFirstIssues = pickGoodFirstIssues(issues);
   const priorityBrief = buildPriorityBrief(issues, pullRequests, issueSummary, goodFirstIssues);
+  const impactBrief = buildImpactBrief(
+    repository,
+    repositorySignals,
+    issues,
+    pullRequests,
+    releases,
+    goodFirstIssues
+  );
   const applicationAnswers = buildApplicationAnswers(
     repository,
     issues,
@@ -104,6 +113,7 @@ export function generateMaintainerWorkspace(repoInput, data) {
     contributingDraft: buildContributingDraft(repository),
     goodFirstIssues,
     priorityBrief,
+    impactBrief,
     weeklyReport: buildWeeklyReport(repository, issues, pullRequests, issueSummary),
     applicationPitch: buildApplicationPitch(repository, issues, pullRequests, issueSummary),
     applicationAnswers,
@@ -333,6 +343,95 @@ ${answers.additionalContext}
 Characters: ${answers.additionalContext.length}/500`;
 }
 
+function buildImpactBrief(repository, repositorySignals, issues, pullRequests, releases, goodFirstIssues) {
+  const metrics = normalizeRepositorySignals(repositorySignals);
+  const checks = [
+    {
+      label: "Repository purpose is described",
+      passed: Boolean(metrics.description),
+      points: 15
+    },
+    {
+      label: "Public usage signals are present",
+      passed: metrics.stars > 0 || metrics.forks > 0,
+      points: 20
+    },
+    {
+      label: "Public maintenance workload is visible",
+      passed: issues.length > 0 || pullRequests.length > 0,
+      points: 20
+    },
+    {
+      label: "Release history can inform release notes",
+      passed: releases.length > 0,
+      points: 15
+    },
+    {
+      label: "New contributor path has candidates",
+      passed: goodFirstIssues.length > 0,
+      points: 15
+    },
+    {
+      label: "Project basics are discoverable",
+      passed: Boolean(metrics.license || metrics.defaultBranch || metrics.topics.length),
+      points: 15
+    }
+  ];
+  const score = checks
+    .filter((check) => check.passed)
+    .reduce((total, check) => total + check.points, 0);
+  const checklist = checks
+    .map((check) => `- [${check.passed ? "x" : " "}] ${check.label} (${check.points} pts)`)
+    .join("\n");
+  const topics = metrics.topics.length ? metrics.topics.join(", ") : "Not provided";
+
+  return {
+    score,
+    metrics,
+    report: `# Ecosystem impact brief
+
+Repository: ${repository.owner}/${repository.repo}
+Description: ${metrics.description || "Not provided"}
+
+## Public maintenance signals
+
+- Stars: ${formatMetric(metrics.stars)}
+- Forks: ${formatMetric(metrics.forks)}
+- Open issues: ${formatMetric(metrics.openIssues)}
+- Active PRs reviewed by this demo: ${pullRequests.length}
+- Issues classified by this demo: ${issues.length}
+- Releases available for notes: ${releases.length}
+- Good first issue candidates: ${goodFirstIssues.length}
+- License: ${metrics.license || "Not provided"}
+- Default branch: ${metrics.defaultBranch || "Not provided"}
+- Topics: ${topics}
+
+## Support fit score
+
+Score: ${score}/100
+
+${checklist}
+
+## Why this matters
+
+This repository shows a concrete maintainer workflow: triage issues, review PRs, prepare release notes, improve docs, and guide new contributors. Stars and downloads are useful signals, but the core support case is that the project reduces repetitive work for open source maintainers and can improve with repository-aware API credits.`
+  };
+}
+
+function normalizeRepositorySignals(repositorySignals) {
+  return {
+    description: String(repositorySignals.description || "").trim(),
+    stars: Number(repositorySignals.stars) || 0,
+    forks: Number(repositorySignals.forks) || 0,
+    openIssues: Number(repositorySignals.openIssues) || 0,
+    defaultBranch: String(repositorySignals.defaultBranch || "").trim(),
+    license: String(repositorySignals.license || "").trim(),
+    topics: Array.isArray(repositorySignals.topics)
+      ? repositorySignals.topics.map((topic) => String(topic).trim()).filter(Boolean)
+      : []
+  };
+}
+
 function buildApplicationReadiness(issues, pullRequests, releases, goodFirstIssues, answers) {
   const checks = [
     {
@@ -473,6 +572,10 @@ ${workspace.weeklyReport}
 
 ${workspace.applicationPitch}
 
+## Ecosystem impact brief
+
+${workspace.impactBrief.report}
+
 ## Support application pack
 
 ${workspace.supportApplicationPack}
@@ -532,6 +635,10 @@ function buildIssueReason(issue, category) {
 
 function formatList(items, fallback) {
   return (items.length ? items : fallback).map((item) => `- ${item}`).join("\n");
+}
+
+function formatMetric(value) {
+  return Number(value || 0).toLocaleString("en-US");
 }
 
 function toRepoIdentity(owner, repo) {

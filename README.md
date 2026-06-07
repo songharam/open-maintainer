@@ -27,6 +27,7 @@ Open Maintainer Workbench는 오픈소스 메인테이너가 반복적으로 처
 - 프로젝트 공유 및 지원용 요약 생성
 - 500자 제한에 맞춘 지원 신청 답변 패키지 생성
 - Application readiness score and submission checklist
+- Ecosystem impact brief with stars, forks, license, topics, and support fit score
 - 전체 산출물 Markdown 복사 및 다운로드
 - 공개 GitHub 저장소의 Issues, Pull Requests, Releases live 읽기
 - 선택적 GitHub token 입력 지원: 브라우저 메모리에서만 사용하고 저장하지 않음
@@ -109,6 +110,7 @@ python3 -m http.server 4173
 
 `src/providers/github-provider.js`는 다음 데이터를 기존 snapshot 형식으로 변환합니다.
 
+- Repository metadata: `/repos/{owner}/{repo}`
 - Open issues: `/repos/{owner}/{repo}/issues`
 - Open pull requests: `/repos/{owner}/{repo}/pulls`
 - Pull request files: `/repos/{owner}/{repo}/pulls/{pull_number}/files`

@@ -8,6 +8,15 @@ import {
 } from "../src/analyzer.js";
 
 const fixture = {
+  repository: {
+    description: "A workbench for repeated open source maintainer tasks.",
+    stars: 1240,
+    forks: 88,
+    openIssues: 42,
+    license: "MIT",
+    defaultBranch: "main",
+    topics: ["open-source", "maintainer-tools"]
+  },
   issues: [
     {
       number: 11,
@@ -115,6 +124,10 @@ test("generateMaintainerWorkspace returns every maintainer artifact", () => {
   assert.match(result.weeklyReport, /4 open issues/);
   assert.match(result.applicationPitch, /Open Maintainer Workbench/i);
   assert.match(result.applicationPitch, /maintainer/i);
+  assert.equal(result.impactBrief.score, 100);
+  assert.match(result.impactBrief.report, /Ecosystem impact brief/);
+  assert.match(result.impactBrief.report, /Stars: 1,240/);
+  assert.match(result.impactBrief.report, /Public maintenance signals/);
   assert.match(result.supportApplicationPack, /Repository fit/);
   assert.match(result.supportApplicationPack, /API credit plan/);
   assert.equal(result.applicationReadiness.score, 100);
@@ -131,6 +144,7 @@ test("generateMaintainerWorkspace returns every maintainer artifact", () => {
   assert.match(result.markdownExport, /## Maintainer priority brief/);
   assert.match(result.markdownExport, /## PR review checklist/);
   assert.match(result.markdownExport, /## Project summary/);
+  assert.match(result.markdownExport, /## Ecosystem impact brief/);
   assert.match(result.markdownExport, /## Support application pack/);
   assert.match(result.markdownExport, /## Application readiness/);
 });

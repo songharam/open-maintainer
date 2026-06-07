@@ -15,6 +15,7 @@ The implementation does not require a token for public repositories. When a toke
 
 Provider support fetches:
 
+- Repository metadata
 - Open issues
 - Open pull requests
 - Pull request changed files
@@ -26,6 +27,15 @@ GitHub responses should be normalized into:
 
 ```js
 {
+  repository: {
+    description,
+    stars,
+    forks,
+    openIssues,
+    defaultBranch,
+    license,
+    topics
+  },
   issues: [
     {
       number,

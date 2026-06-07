@@ -11,6 +11,18 @@ test("getRepositorySnapshotFromGitHub fetches public GitHub data and normalizes 
   const fetcher = async (url, init) => {
     calls.push({ url, init });
 
+    if (url.endsWith("/repos/octo/demo")) {
+      return jsonResponse({
+        description: "A maintainer workflow demo.",
+        stargazers_count: 321,
+        forks_count: 24,
+        open_issues_count: 12,
+        default_branch: "main",
+        license: { spdx_id: "MIT" },
+        topics: ["maintainers", "triage"]
+      });
+    }
+
     if (url.endsWith("/issues?state=open&per_page=30&sort=updated&direction=desc")) {
       return jsonResponse([
         {
@@ -68,6 +80,15 @@ test("getRepositorySnapshotFromGitHub fetches public GitHub data and normalizes 
 
   assert.equal(snapshot.provider, "github");
   assert.equal(snapshot.status.kind, "live");
+  assert.deepEqual(snapshot.repository, {
+    description: "A maintainer workflow demo.",
+    stars: 321,
+    forks: 24,
+    openIssues: 12,
+    defaultBranch: "main",
+    license: "MIT",
+    topics: ["maintainers", "triage"]
+  });
   assert.equal(snapshot.issues.length, 1);
   assert.deepEqual(snapshot.issues[0].labels, ["bug", "good first issue"]);
   assert.deepEqual(snapshot.pullRequests[0], {
@@ -81,7 +102,7 @@ test("getRepositorySnapshotFromGitHub fetches public GitHub data and normalizes 
     tag: "v1.2.0",
     merged: ["Add JSON export", "Fix issue triage"]
   });
-  assert.equal(calls.length, 4);
+  assert.equal(calls.length, 5);
   assert.ok(calls.every((call) => !("Authorization" in call.init.headers)));
 });
 
@@ -90,6 +111,7 @@ test("getRepositorySnapshotFromGitHub sends an optional token as a bearer header
   const fetcher = async (url, init) => {
     calls.push({ url, init });
 
+    if (url.endsWith("/repos/octo/demo")) return jsonResponse({});
     if (url.includes("/issues?")) return jsonResponse([]);
     if (url.includes("/pulls?")) return jsonResponse([]);
     if (url.includes("/releases?")) return jsonResponse([]);
@@ -102,7 +124,7 @@ test("getRepositorySnapshotFromGitHub sends an optional token as a bearer header
     { fetcher, token: "ghp_example" }
   );
 
-  assert.equal(calls.length, 3);
+  assert.equal(calls.length, 4);
   assert.ok(calls.every((call) => call.init.headers.Authorization === "Bearer ghp_example"));
 });
 

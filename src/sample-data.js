@@ -1,4 +1,13 @@
 export const sampleRepositoryData = {
+  repository: {
+    description: "Static workbench for recurring open source maintainer tasks.",
+    stars: 128,
+    forks: 18,
+    openIssues: 24,
+    defaultBranch: "main",
+    license: "MIT",
+    topics: ["open-source", "maintainer-tools", "issue-triage"]
+  },
   issues: [
     {
       number: 128,

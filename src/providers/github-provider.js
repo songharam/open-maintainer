@@ -24,26 +24,28 @@ export async function getRepositorySnapshotFromGitHub(repoIdentity, options = {}
   const owner = encodeURIComponent(repoIdentity.owner);
   const repo = encodeURIComponent(repoIdentity.repo);
   const baseUrl = `${GITHUB_API_BASE}/repos/${owner}/${repo}`;
-  const [issuesPayload, pullsPayload, releasesPayload] = await Promise.all([
+  const [repositoryPayload, issuesPayload, pullsPayload, releasesPayload] = await Promise.all([
+    requestJson(baseUrl, fetcher, requestHeaders),
     requestJson(`${baseUrl}/issues?state=open&per_page=30&sort=updated&direction=desc`, fetcher, requestHeaders),
     requestJson(`${baseUrl}/pulls?state=open&per_page=10&sort=updated&direction=desc`, fetcher, requestHeaders),
     requestJson(`${baseUrl}/releases?per_page=5`, fetcher, requestHeaders)
   ]);
 
   const pullRequests = await Promise.all(
-    pullsPayload.map((pullRequest) =>
+    asArray(pullsPayload).map((pullRequest) =>
       normalizePullRequest(baseUrl, pullRequest, fetcher, requestHeaders)
     )
   );
-  const issues = issuesPayload
+  const issues = asArray(issuesPayload)
     .filter((issue) => !issue.pull_request)
     .map(normalizeIssue);
-  const releases = releasesPayload.map(normalizeRelease);
+  const releases = asArray(releasesPayload).map(normalizeRelease);
   const status = buildStatus(issues, pullRequests, releases);
 
   return {
     provider: "github",
     status,
+    repository: normalizeRepository(repositoryPayload),
     issues,
     pullRequests,
     releases
@@ -72,7 +74,7 @@ async function requestJson(url, fetcher, headers) {
     throw toProviderError(response, body);
   }
 
-  return Array.isArray(body) ? body : [];
+  return body;
 }
 
 function toProviderError(response, body) {
@@ -110,6 +112,22 @@ function normalizeIssue(issue) {
     labels: normalizeLabels(issue.labels),
     comments: issue.comments || 0,
     updatedAt: issue.updated_at || issue.created_at || ""
+  };
+}
+
+function normalizeRepository(repository) {
+  const source = repository && typeof repository === "object" && !Array.isArray(repository)
+    ? repository
+    : {};
+
+  return {
+    description: source.description || "",
+    stars: Number(source.stargazers_count) || 0,
+    forks: Number(source.forks_count) || 0,
+    openIssues: Number(source.open_issues_count) || 0,
+    defaultBranch: source.default_branch || "",
+    license: source.license?.spdx_id || source.license?.name || "",
+    topics: Array.isArray(source.topics) ? source.topics.filter(Boolean) : []
   };
 }
 
@@ -177,6 +195,10 @@ function buildRequestHeaders(token) {
 
 function sum(items, key) {
   return items.reduce((total, item) => total + (Number(item[key]) || 0), 0);
+}
+
+function asArray(value) {
+  return Array.isArray(value) ? value : [];
 }
 
 function getHeader(headers, name) {

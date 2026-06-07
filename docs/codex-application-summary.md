@@ -20,6 +20,7 @@ Open Maintainer Workbench는 오픈소스 메인테이너가 반복적으로 수
 - `프로젝트 요약` 탭에서 공유나 지원 신청에 사용할 문제, 해결, 확장 계획을 바로 확인할 수 있습니다.
 - `지원서 팩` 탭에서 저장소 적합성, API 크레딧 사용 계획, 추가 설명을 500자 제한에 맞춘 초안으로 복사할 수 있습니다.
 - `Readiness` 탭에서 신청 준비 점수, 증거 체크리스트, 남은 액션을 바로 점검할 수 있습니다.
+- `Impact` 탭에서 stars, forks, license, topics, workload evidence를 포함한 ecosystem impact brief를 확인할 수 있습니다.
 - `Export` 탭에서 전체 산출물을 하나의 Markdown 문서로 복사하거나 다운로드할 수 있습니다.
 - 검정색 기반의 간결한 UI로 신청용 데모 화면에서 기능이 바로 드러납니다.
 

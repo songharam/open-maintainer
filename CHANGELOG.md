@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.10.0 - 2026-06-07
+
+- Added an `Impact` tab with an ecosystem impact brief, public repository signals, and support fit score.
+- Extended sample and live GitHub providers with repository metadata such as stars, forks, license, default branch, and topics.
+- Included the ecosystem impact brief in Markdown export and analyzer tests.
+- Updated README, demo script, architecture, GitHub API docs, and roadmap for the impact workflow.
+
 ## 0.9.1 - 2026-06-06
 
 - Updated GitHub Actions workflows to Node.js 24-compatible action majors.
