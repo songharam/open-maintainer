@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.1 - 2026-06-12
+
+- Updated GitHub Actions workflows to the latest checked action majors.
+- Moved CI verification to Node.js 24 to match the local/current runtime.
+- Kept GitHub Pages deployment manual until Pages is enabled in repository settings.
+
 ## 0.10.0 - 2026-06-07
 
 - Added an `Impact` tab with an ecosystem impact brief, public repository signals, and support fit score.
