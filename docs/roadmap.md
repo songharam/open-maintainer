@@ -9,6 +9,7 @@
 - Add a support application answer pack with 500-character-ready drafts. Completed in `0.7.0`.
 - Add an application readiness score with evidence checklist and next actions. Completed in `0.9.0`.
 - Add an ecosystem impact brief with public repository signals and support fit score. Completed in `0.10.0`.
+- Add an API credit usage plan with guardrails and success metrics. Completed in `0.11.0`.
 
 ## Phase 2: GitHub API Provider
 

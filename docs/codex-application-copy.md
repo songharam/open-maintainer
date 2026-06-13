@@ -6,7 +6,7 @@ Open Maintainer Workbench
 
 ## 짧은 소개
 
-GitHub 저장소 URL만 입력하면 오픈소스 메인테이너에게 필요한 이슈 분류, 이번 주 우선순위 브리프, PR 리뷰 체크리스트, GitHub 저장소 운영 체크리스트, 릴리스 노트, README 개선안, CONTRIBUTING.md 초안, good first issue 추천, 주간 리포트, 500자 제한 지원 신청 답변, 전체 Markdown export를 생성하는 웹앱입니다. `Live GitHub`와 `Sample demo` 모드를 모두 제공해 실제 공개 저장소와 GitHub API 없는 예시 워크로드를 함께 보여줄 수 있습니다. Codex 지원을 받으면 실제 GitHub 데이터와 프로젝트별 유지보수 패턴을 바탕으로 이 작업대를 더 정확하고 실용적인 메인테이너 보조 도구로 발전시킬 수 있습니다.
+GitHub 저장소 URL만 입력하면 오픈소스 메인테이너에게 필요한 이슈 분류, 이번 주 우선순위 브리프, PR 리뷰 체크리스트, GitHub 저장소 운영 체크리스트, 릴리스 노트, README 개선안, CONTRIBUTING.md 초안, good first issue 추천, 주간 리포트, 500자 제한 지원 신청 답변, API 크레딧 사용 계획, 전체 Markdown export를 생성하는 웹앱입니다. `Live GitHub`와 `Sample demo` 모드를 모두 제공해 실제 공개 저장소와 GitHub API 없는 예시 워크로드를 함께 보여줄 수 있습니다. Codex 지원을 받으면 실제 GitHub 데이터와 프로젝트별 유지보수 패턴을 바탕으로 이 작업대를 더 정확하고 실용적인 메인테이너 보조 도구로 발전시킬 수 있습니다.
 
 ## 문제
 

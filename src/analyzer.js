@@ -80,6 +80,15 @@ export function generateMaintainerWorkspace(repoInput, data) {
     releases,
     goodFirstIssues
   );
+  const apiUsagePlan = buildApiUsagePlan(
+    repository,
+    issues,
+    pullRequests,
+    issueSummary,
+    releases,
+    goodFirstIssues,
+    impactBrief
+  );
   const applicationAnswers = buildApplicationAnswers(
     repository,
     issues,
@@ -114,6 +123,7 @@ export function generateMaintainerWorkspace(repoInput, data) {
     goodFirstIssues,
     priorityBrief,
     impactBrief,
+    apiUsagePlan,
     weeklyReport: buildWeeklyReport(repository, issues, pullRequests, issueSummary),
     applicationPitch: buildApplicationPitch(repository, issues, pullRequests, issueSummary),
     applicationAnswers,
@@ -418,6 +428,34 @@ This repository shows a concrete maintainer workflow: triage issues, review PRs,
   };
 }
 
+function buildApiUsagePlan(repository, issues, pullRequests, issueSummary, releases, goodFirstIssues, impactBrief) {
+  return {
+    report: `# API credit usage plan for ${repository.owner}/${repository.repo}
+
+## Use cases
+
+- Improve issue triage reasons across ${issues.length} open issues and keep the deterministic category fallback.
+- Summarize review risk for ${pullRequests.length} active pull requests, including test, docs, security, and scope signals.
+- Draft release notes from ${releases.length} published releases and the current bug/feature/doc queue.
+- Generate contributor onboarding suggestions from ${goodFirstIssues.length} good first issue candidates.
+- Refine README and CONTRIBUTING recommendations using repository topics, license, and impact score ${impactBrief.score}/100.
+
+## Guardrails
+
+- Keep sample mode and static Markdown export available without any API key.
+- Never store GitHub tokens, OpenAI keys, or generated private repository content in the browser.
+- Show source mode clearly so maintainers can distinguish live GitHub data from sample fallback data.
+- Keep generated text reviewable and editable before it becomes an issue comment, PR review, or release note.
+
+## Success metrics
+
+- Reduce the time needed to prepare a weekly maintainer report.
+- Increase the share of issues with clear triage labels and contributor-friendly next steps.
+- Help maintainers publish release notes and onboarding docs with fewer repeated manual edits.
+- Preserve passing CI and deterministic tests while adding model-assisted workflows.`
+  };
+}
+
 function normalizeRepositorySignals(repositorySignals) {
   return {
     description: String(repositorySignals.description || "").trim(),
@@ -575,6 +613,10 @@ ${workspace.applicationPitch}
 ## Ecosystem impact brief
 
 ${workspace.impactBrief.report}
+
+## API credit usage plan
+
+${workspace.apiUsagePlan.report}
 
 ## Support application pack
 

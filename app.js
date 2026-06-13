@@ -35,6 +35,7 @@ const outputs = {
   report: document.querySelector("#reportOutput"),
   pitch: document.querySelector("#pitchOutput"),
   impact: document.querySelector("#impactOutput"),
+  apiPlan: document.querySelector("#apiPlanOutput"),
   support: document.querySelector("#supportOutput"),
   readiness: document.querySelector("#readinessOutput"),
   export: document.querySelector("#exportOutput")
@@ -129,6 +130,7 @@ async function renderWorkspace(repoValue) {
   outputs.report.textContent = workspace.weeklyReport;
   outputs.pitch.textContent = workspace.applicationPitch;
   outputs.impact.textContent = workspace.impactBrief.report;
+  outputs.apiPlan.textContent = workspace.apiUsagePlan.report;
   outputs.support.textContent = workspace.supportApplicationPack;
   outputs.readiness.textContent = workspace.applicationReadiness.report;
   outputs.export.textContent = workspace.markdownExport;

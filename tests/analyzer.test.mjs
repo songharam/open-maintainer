@@ -128,6 +128,9 @@ test("generateMaintainerWorkspace returns every maintainer artifact", () => {
   assert.match(result.impactBrief.report, /Ecosystem impact brief/);
   assert.match(result.impactBrief.report, /Stars: 1,240/);
   assert.match(result.impactBrief.report, /Public maintenance signals/);
+  assert.match(result.apiUsagePlan.report, /API credit usage plan/);
+  assert.match(result.apiUsagePlan.report, /Guardrails/);
+  assert.match(result.apiUsagePlan.report, /Success metrics/);
   assert.match(result.supportApplicationPack, /Repository fit/);
   assert.match(result.supportApplicationPack, /API credit plan/);
   assert.equal(result.applicationReadiness.score, 100);
@@ -145,6 +148,7 @@ test("generateMaintainerWorkspace returns every maintainer artifact", () => {
   assert.match(result.markdownExport, /## PR review checklist/);
   assert.match(result.markdownExport, /## Project summary/);
   assert.match(result.markdownExport, /## Ecosystem impact brief/);
+  assert.match(result.markdownExport, /## API credit usage plan/);
   assert.match(result.markdownExport, /## Support application pack/);
   assert.match(result.markdownExport, /## Application readiness/);
 });

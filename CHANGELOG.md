@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.11.0 - 2026-06-13
+
+- Added an `API Plan` tab with API credit use cases, guardrails, and success metrics.
+- Included the API credit usage plan in Markdown export and analyzer tests.
+- Updated README, demo script, architecture, roadmap, and application summary for the API plan workflow.
+
 ## 0.10.1 - 2026-06-12
 
 - Updated GitHub Actions workflows to the latest checked action majors.
