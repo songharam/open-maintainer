@@ -27,6 +27,7 @@ Walk through these tabs:
 - `지원서 팩`: 500-character-ready repository fit, API credit plan, and additional context drafts
 - `Impact`: ecosystem impact brief with public repository signals and support fit score
 - `API Plan`: API credit use cases, guardrails, and success metrics
+- `Follow-up`: application wait guidance, evidence refresh checklist, and follow-up email draft
 - `Readiness`: application readiness score, evidence checklist, and remaining next actions
 - `Export`: all generated outputs as one Markdown document
 

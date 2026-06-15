@@ -103,6 +103,13 @@ export function generateMaintainerWorkspace(repoInput, data) {
     goodFirstIssues,
     applicationAnswers
   );
+  const followUpPlan = buildFollowUpPlan(
+    repository,
+    issueSummary,
+    impactBrief,
+    apiUsagePlan,
+    applicationReadiness
+  );
   const workspace = {
     repository: {
       ...repository,
@@ -128,7 +135,8 @@ export function generateMaintainerWorkspace(repoInput, data) {
     applicationPitch: buildApplicationPitch(repository, issues, pullRequests, issueSummary),
     applicationAnswers,
     supportApplicationPack: buildSupportApplicationPack(applicationAnswers),
-    applicationReadiness
+    applicationReadiness,
+    followUpPlan
   };
 
   return {
@@ -540,6 +548,40 @@ ${nextActions}`
   };
 }
 
+function buildFollowUpPlan(repository, issueSummary, impactBrief, apiUsagePlan, applicationReadiness) {
+  const focus = applicationReadiness.score >= 90
+    ? "The application package is ready enough for a concise follow-up if review takes longer than expected."
+    : "Improve missing readiness evidence before sending any follow-up.";
+
+  return {
+    report: `# Application follow-up plan for ${repository.owner}/${repository.repo}
+
+## Wait window
+
+- Do not treat a quiet inbox as rejection by itself.
+- Keep the repository active, but avoid repeated messages while the application is under review.
+- If there is still no response after a reasonable review window, send one concise follow-up with concrete new evidence.
+
+## Keep evidence fresh
+
+- Keep CI passing and screenshots current.
+- Link the latest README, demo script, architecture notes, and Netlify ZIP.
+- Add one small improvement or issue cleanup before any follow-up.
+- Summarize current workload: ${issueSummary.counts.bug} bugs, ${issueSummary.counts.feature} feature requests, ${issueSummary.counts.docs} docs tasks.
+- Reuse impact score ${impactBrief.score}/100 and API plan evidence from the generated workspace.
+
+## Follow-up email draft
+
+Subject: Follow-up on Open Maintainer Workbench support application
+
+Hello,
+
+I wanted to share a short update on my Open Maintainer Workbench application. Since applying, I have kept the repository active, CI passing, and added clearer maintainer artifacts including the impact brief, API credit usage plan, readiness checklist, and Markdown export. ${focus}
+
+Thank you for reviewing the project.`
+  };
+}
+
 function buildMarkdownExport(workspace) {
   const issueLines = Object.entries(workspace.issueSummary.buckets)
     .flatMap(([category, issues]) =>
@@ -617,6 +659,10 @@ ${workspace.impactBrief.report}
 ## API credit usage plan
 
 ${workspace.apiUsagePlan.report}
+
+## Application follow-up plan
+
+${workspace.followUpPlan.report}
 
 ## Support application pack
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.0 - 2026-06-15
+
+- Added a `Follow-up` tab with application wait guidance, evidence refresh checklist, and a concise follow-up email draft.
+- Included the follow-up plan in Markdown export and analyzer tests.
+- Updated README, demo script, architecture, roadmap, and application summary for the follow-up workflow.
+
 ## 0.11.0 - 2026-06-13
 
 - Added an `API Plan` tab with API credit use cases, guardrails, and success metrics.
