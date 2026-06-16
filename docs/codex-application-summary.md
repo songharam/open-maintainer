@@ -23,6 +23,7 @@ Open Maintainer Workbench는 오픈소스 메인테이너가 반복적으로 수
 - `Impact` 탭에서 stars, forks, license, topics, workload evidence를 포함한 ecosystem impact brief를 확인할 수 있습니다.
 - `API Plan` 탭에서 API 크레딧 사용 사례, 안전장치, 성공 지표를 바로 설명할 수 있습니다.
 - `Follow-up` 탭에서 대기 중 유지할 증거, 업데이트 기준, 후속 메일 초안을 확인할 수 있습니다.
+- `Reviewer` 탭에서 2분 리뷰 경로, 검증할 증거, 지원 필요 이유를 한 번에 확인할 수 있습니다.
 - `Export` 탭에서 전체 산출물을 하나의 Markdown 문서로 복사하거나 다운로드할 수 있습니다.
 - 검정색 기반의 간결한 UI로 신청용 데모 화면에서 기능이 바로 드러납니다.
 

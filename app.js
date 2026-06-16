@@ -37,6 +37,7 @@ const outputs = {
   impact: document.querySelector("#impactOutput"),
   apiPlan: document.querySelector("#apiPlanOutput"),
   followUp: document.querySelector("#followUpOutput"),
+  reviewer: document.querySelector("#reviewerOutput"),
   support: document.querySelector("#supportOutput"),
   readiness: document.querySelector("#readinessOutput"),
   export: document.querySelector("#exportOutput")
@@ -133,6 +134,7 @@ async function renderWorkspace(repoValue) {
   outputs.impact.textContent = workspace.impactBrief.report;
   outputs.apiPlan.textContent = workspace.apiUsagePlan.report;
   outputs.followUp.textContent = workspace.followUpPlan.report;
+  outputs.reviewer.textContent = workspace.reviewerPacket.report;
   outputs.support.textContent = workspace.supportApplicationPack;
   outputs.readiness.textContent = workspace.applicationReadiness.report;
   outputs.export.textContent = workspace.markdownExport;

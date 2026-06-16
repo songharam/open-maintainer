@@ -28,6 +28,7 @@ Walk through these tabs:
 - `Impact`: ecosystem impact brief with public repository signals and support fit score
 - `API Plan`: API credit use cases, guardrails, and success metrics
 - `Follow-up`: application wait guidance, evidence refresh checklist, and follow-up email draft
+- `Reviewer`: two-minute review path, evidence checklist, and support rationale
 - `Readiness`: application readiness score, evidence checklist, and remaining next actions
 - `Export`: all generated outputs as one Markdown document
 

@@ -110,6 +110,15 @@ export function generateMaintainerWorkspace(repoInput, data) {
     apiUsagePlan,
     applicationReadiness
   );
+  const reviewerPacket = buildReviewerPacket(
+    repository,
+    issues,
+    pullRequests,
+    releases,
+    goodFirstIssues,
+    impactBrief,
+    applicationReadiness
+  );
   const workspace = {
     repository: {
       ...repository,
@@ -136,7 +145,8 @@ export function generateMaintainerWorkspace(repoInput, data) {
     applicationAnswers,
     supportApplicationPack: buildSupportApplicationPack(applicationAnswers),
     applicationReadiness,
-    followUpPlan
+    followUpPlan,
+    reviewerPacket
   };
 
   return {
@@ -582,6 +592,32 @@ Thank you for reviewing the project.`
   };
 }
 
+function buildReviewerPacket(repository, issues, pullRequests, releases, goodFirstIssues, impactBrief, applicationReadiness) {
+  return {
+    report: `# Reviewer packet for ${repository.owner}/${repository.repo}
+
+## Two-minute review path
+
+1. Open the sample demo and confirm the app works without a GitHub token.
+2. Paste a public GitHub repository URL and compare live mode with sample mode.
+3. Check Issue triage, Repo health, Impact, API Plan, Readiness, and Export tabs.
+4. Download or copy the Markdown export and confirm it contains reusable maintainer artifacts.
+
+## Evidence to verify
+
+- CI is expected to pass on every push.
+- Static deployment package is available as a Netlify ZIP.
+- Screenshots show the actual black-based maintainer workspace UI.
+- The analyzer produces deterministic output for ${issues.length} issues, ${pullRequests.length} pull requests, ${releases.length} releases, and ${goodFirstIssues.length} good first issue candidates.
+- Impact score: ${impactBrief.score}/100.
+- Application readiness: ${applicationReadiness.score}/100, ${applicationReadiness.status}.
+
+## Why this deserves support
+
+Open Maintainer Workbench is not just a one-off application page. It demonstrates a repeatable open-source maintainer workflow: triage, review preparation, release drafting, documentation improvement, contributor onboarding, reporting, export, API credit planning, and follow-up evidence. Support would turn the deterministic workflow into a stronger repository-aware assistant while preserving a static, no-token fallback.`
+  };
+}
+
 function buildMarkdownExport(workspace) {
   const issueLines = Object.entries(workspace.issueSummary.buckets)
     .flatMap(([category, issues]) =>
@@ -663,6 +699,10 @@ ${workspace.apiUsagePlan.report}
 ## Application follow-up plan
 
 ${workspace.followUpPlan.report}
+
+## Reviewer packet
+
+${workspace.reviewerPacket.report}
 
 ## Support application pack
 

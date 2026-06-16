@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.0 - 2026-06-17
+
+- Added a `Reviewer` tab with a two-minute review path, evidence checklist, and support rationale.
+- Included the reviewer packet in Markdown export and analyzer tests.
+- Updated README, demo script, architecture, roadmap, and application summary for reviewer-facing evidence.
+
 ## 0.12.0 - 2026-06-15
 
 - Added a `Follow-up` tab with application wait guidance, evidence refresh checklist, and a concise follow-up email draft.
