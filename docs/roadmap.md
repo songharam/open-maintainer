@@ -12,6 +12,7 @@
 - Add an API credit usage plan with guardrails and success metrics. Completed in `0.11.0`.
 - Add an application follow-up plan with evidence refresh checklist and email draft. Completed in `0.12.0`.
 - Add a reviewer packet with a two-minute review path and evidence checklist. Completed in `0.13.0`.
+- Add a launch kit with Netlify ZIP, GitHub Pages, demo URL, and verification handoff. Completed in `0.14.0`.
 
 ## Phase 2: GitHub API Provider
 

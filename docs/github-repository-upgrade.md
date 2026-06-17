@@ -43,6 +43,7 @@ Recommended labels:
 - Require `npm test` and `npm run check` before merging meaningful changes.
 - Keep GitHub Pages deployment manual until Pages is enabled in repository settings.
 - Use Netlify ZIP for a reviewer-friendly static deployment path.
+- Keep `docs/deployment-handoff.md` current so reviewers can follow the exact deploy path.
 
 ## Demo Evidence
 

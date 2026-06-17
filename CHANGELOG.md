@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.0 - 2026-06-17
+
+- Added a `Launch` tab with Netlify ZIP, GitHub Pages, demo URL, screenshot, and verification handoff steps.
+- Included the launch kit in Markdown export and analyzer tests.
+- Added deployment handoff documentation for reviewers and maintainers.
+
 ## 0.13.0 - 2026-06-17
 
 - Added a `Reviewer` tab with a two-minute review path, evidence checklist, and support rationale.

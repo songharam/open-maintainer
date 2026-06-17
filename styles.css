@@ -581,9 +581,8 @@ h3 {
 
 @media (max-width: 760px) {
   .app-shell {
-    width: 100vw;
-    max-width: 100vw;
-    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
     padding: 16px;
   }
 
@@ -595,7 +594,20 @@ h3 {
   .provider-notice,
   .mini-chart,
   .tabs {
+    width: 100%;
     max-width: 100%;
+  }
+
+  .control-panel,
+  .results-panel,
+  .tab-panel {
+    max-width: calc(100vw - 32px);
+    overflow: hidden;
+  }
+
+  .control-panel *,
+  .results-panel * {
+    min-width: 0;
   }
 
   .topbar,
@@ -632,6 +644,11 @@ h3 {
 
   .mode-switch {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mode-button,
+  .repo-form button {
+    width: 100%;
   }
 
   .issue-column {

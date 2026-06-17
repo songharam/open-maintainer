@@ -119,6 +119,7 @@ export function generateMaintainerWorkspace(repoInput, data) {
     impactBrief,
     applicationReadiness
   );
+  const launchKit = buildLaunchKit(repository, impactBrief, applicationReadiness);
   const workspace = {
     repository: {
       ...repository,
@@ -146,7 +147,8 @@ export function generateMaintainerWorkspace(repoInput, data) {
     supportApplicationPack: buildSupportApplicationPack(applicationAnswers),
     applicationReadiness,
     followUpPlan,
-    reviewerPacket
+    reviewerPacket,
+    launchKit
   };
 
   return {
@@ -618,6 +620,42 @@ Open Maintainer Workbench is not just a one-off application page. It demonstrate
   };
 }
 
+function buildLaunchKit(repository, impactBrief, applicationReadiness) {
+  const pagesUrl = `https://${repository.owner}.github.io/${repository.repo}/?demo=sample`;
+
+  return {
+    report: `# Launch kit for ${repository.owner}/${repository.repo}
+
+## Reviewer demo links
+
+- Repository: ${repository.url}
+- Expected GitHub Pages URL after Pages is enabled: ${pagesUrl}
+- Netlify ZIP: outputs/maintainer-workbench-netlify.zip
+- Screenshot: screenshots/maintainer-workbench.png
+
+## Netlify ZIP deploy path
+
+1. Open Netlify and choose manual deploy.
+2. Upload the prepared Netlify ZIP.
+3. Open the deployed site with ?demo=sample to show the no-token reviewer path.
+4. Paste a public GitHub repository URL to show Live GitHub mode.
+
+## GitHub Pages path
+
+1. In repository Settings, set Pages source to GitHub Actions.
+2. Run the Deploy GitHub Pages workflow from the Actions tab.
+3. Open the workflow summary and copy the published page URL.
+4. Verify the page loads the sample demo and the Markdown export tab.
+
+## Verification commands
+
+- npm test
+- npm run check
+- Open ?demo=sample and confirm Issue triage, Reviewer, Launch, Readiness, and Export tabs render.
+- Confirm impact score ${impactBrief.score}/100 and readiness score ${applicationReadiness.score}/100 still match the latest generated output.`
+  };
+}
+
 function buildMarkdownExport(workspace) {
   const issueLines = Object.entries(workspace.issueSummary.buckets)
     .flatMap(([category, issues]) =>
@@ -703,6 +741,10 @@ ${workspace.followUpPlan.report}
 ## Reviewer packet
 
 ${workspace.reviewerPacket.report}
+
+## Launch kit
+
+${workspace.launchKit.report}
 
 ## Support application pack
 
