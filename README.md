@@ -32,6 +32,7 @@ Open Maintainer Workbench는 오픈소스 메인테이너가 반복적으로 처
 - Application follow-up plan with evidence refresh checklist and email draft
 - Reviewer packet with a two-minute review path and evidence checklist
 - Launch kit with Netlify ZIP, GitHub Pages, demo URL, screenshot, and verification handoff
+- Maintainer operating loop with weekly cycle goal, done criteria, and next cycle trigger
 - 전체 산출물 Markdown 복사 및 다운로드
 - 공개 GitHub 저장소의 Issues, Pull Requests, Releases live 읽기
 - 선택적 GitHub token 입력 지원: 브라우저 메모리에서만 사용하고 저장하지 않음

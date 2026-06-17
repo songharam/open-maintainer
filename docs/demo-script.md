@@ -30,9 +30,10 @@ Walk through these tabs:
 - `Follow-up`: application wait guidance, evidence refresh checklist, and follow-up email draft
 - `Reviewer`: two-minute review path, evidence checklist, and support rationale
 - `Launch`: Netlify ZIP, GitHub Pages, demo URL, screenshot, and verification handoff
+- `Loop`: weekly maintainer operating cycle, cycle goal, done criteria, and next cycle trigger
 - `Readiness`: application readiness score, evidence checklist, and remaining next actions
 - `Export`: all generated outputs as one Markdown document
 
 ## 4. Explain the Extension Path
 
-The current demo already reads public GitHub Issues, Pull Requests, changed files, and Releases through `src/providers/github-provider.js`. It also has an explicit `Sample demo` mode so reviewers can see a populated workflow even when the target repository is empty. Optional token support is in-memory only. The `Launch` tab and `docs/deployment-handoff.md` keep deployment evidence easy to verify. The next step is Codex/API-assisted summaries grounded in real repository history.
+The current demo already reads public GitHub Issues, Pull Requests, changed files, and Releases through `src/providers/github-provider.js`. It also has an explicit `Sample demo` mode so reviewers can see a populated workflow even when the target repository is empty. Optional token support is in-memory only. The `Launch` tab and `docs/deployment-handoff.md` keep deployment evidence easy to verify. The `Loop` tab and `docs/operating-loop.md` show how the generated artifacts become a repeatable maintainer habit. The next step is Codex/API-assisted summaries grounded in real repository history.

@@ -142,6 +142,10 @@ test("generateMaintainerWorkspace returns every maintainer artifact", () => {
   assert.match(result.launchKit.report, /Netlify ZIP/);
   assert.match(result.launchKit.report, /GitHub Pages/);
   assert.match(result.launchKit.report, /Verification commands/);
+  assert.match(result.maintainerLoop.report, /Maintainer operating loop/);
+  assert.match(result.maintainerLoop.report, /Cycle goal/);
+  assert.match(result.maintainerLoop.report, /Weekly loop/);
+  assert.match(result.maintainerLoop.report, /Done criteria/);
   assert.match(result.supportApplicationPack, /Repository fit/);
   assert.match(result.supportApplicationPack, /API credit plan/);
   assert.equal(result.applicationReadiness.score, 100);
@@ -163,6 +167,7 @@ test("generateMaintainerWorkspace returns every maintainer artifact", () => {
   assert.match(result.markdownExport, /## Application follow-up plan/);
   assert.match(result.markdownExport, /## Reviewer packet/);
   assert.match(result.markdownExport, /## Launch kit/);
+  assert.match(result.markdownExport, /## Maintainer operating loop/);
   assert.match(result.markdownExport, /## Support application pack/);
   assert.match(result.markdownExport, /## Application readiness/);
 });

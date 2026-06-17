@@ -44,6 +44,7 @@ Recommended labels:
 - Keep GitHub Pages deployment manual until Pages is enabled in repository settings.
 - Use Netlify ZIP for a reviewer-friendly static deployment path.
 - Keep `docs/deployment-handoff.md` current so reviewers can follow the exact deploy path.
+- Keep `docs/operating-loop.md` current so reviewers can see the repeated maintainer workflow.
 
 ## Demo Evidence
 

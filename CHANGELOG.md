@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.0 - 2026-06-17
+
+- Added a `Loop` tab with a weekly maintainer operating cycle, cycle goal, done criteria, and next cycle trigger.
+- Included the maintainer operating loop in Markdown export and analyzer tests.
+- Added an operating loop guide so the project reads as a repeatable maintainer workflow, not a one-time demo.
+
 ## 0.14.0 - 2026-06-17
 
 - Added a `Launch` tab with Netlify ZIP, GitHub Pages, demo URL, screenshot, and verification handoff steps.

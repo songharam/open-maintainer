@@ -120,6 +120,14 @@ export function generateMaintainerWorkspace(repoInput, data) {
     applicationReadiness
   );
   const launchKit = buildLaunchKit(repository, impactBrief, applicationReadiness);
+  const maintainerLoop = buildMaintainerLoop(
+    repository,
+    issues,
+    pullRequests,
+    issueSummary,
+    goodFirstIssues,
+    applicationReadiness
+  );
   const workspace = {
     repository: {
       ...repository,
@@ -148,7 +156,8 @@ export function generateMaintainerWorkspace(repoInput, data) {
     applicationReadiness,
     followUpPlan,
     reviewerPacket,
-    launchKit
+    launchKit,
+    maintainerLoop
   };
 
   return {
@@ -656,6 +665,49 @@ function buildLaunchKit(repository, impactBrief, applicationReadiness) {
   };
 }
 
+function buildMaintainerLoop(repository, issues, pullRequests, issueSummary, goodFirstIssues, applicationReadiness) {
+  const topBug = issueSummary.buckets.bug
+    .toSorted((a, b) => (b.comments || 0) - (a.comments || 0))[0];
+  const topDocs = issueSummary.buckets.docs
+    .toSorted((a, b) => (a.comments || 0) - (b.comments || 0))[0];
+  const topPr = [...pullRequests].sort((a, b) => (b.additions || 0) - (a.additions || 0))[0];
+  const contributorTask = goodFirstIssues[0] || topDocs;
+  const cycleGoal = [
+    topBug ? `stabilize issue #${topBug.number}` : "keep the bug queue reviewed",
+    topPr ? `review PR #${topPr.number}` : "prepare the next PR review checklist",
+    contributorTask ? `promote issue #${contributorTask.number} for contributors` : "create one small contributor task"
+  ].join(", ");
+
+  return {
+    report: `# Maintainer operating loop for ${repository.owner}/${repository.repo}
+
+## Cycle goal
+
+This cycle should ${cycleGoal}. The goal is not to generate more text; it is to turn the generated artifacts into one reviewed PR, one cleaner issue queue, and one easier path for a new contributor.
+
+## Weekly loop
+
+1. Intake: open the workbench in Sample demo or Live GitHub mode and refresh the Markdown export.
+2. Triage: classify ${issues.length} open issues and move the highest-risk bug into the next action list.
+3. Review: use the PR checklist for ${pullRequests.length} active pull request${pullRequests.length === 1 ? "" : "s"}.
+4. Document: apply the README or CONTRIBUTING suggestion that removes the most repeated question.
+5. Release: update the release note draft when fixes or docs changes are merged.
+6. Onboard: promote ${goodFirstIssues.length || 1} good first issue candidate${goodFirstIssues.length === 1 ? "" : "s"}.
+7. Report: copy the weekly report and readiness evidence before closing the cycle.
+
+## Done criteria
+
+- CI is green after the changes.
+- One maintainer artifact is copied into a real issue, PR review, release note, README, or weekly update.
+- One contributor-facing task is clearer than it was before the cycle.
+- Application readiness remains ${applicationReadiness.score}/100 or improves.
+
+## Next cycle trigger
+
+Start the next loop when a new PR opens, the issue count changes, or a release is being prepared.`
+  };
+}
+
 function buildMarkdownExport(workspace) {
   const issueLines = Object.entries(workspace.issueSummary.buckets)
     .flatMap(([category, issues]) =>
@@ -745,6 +797,10 @@ ${workspace.reviewerPacket.report}
 ## Launch kit
 
 ${workspace.launchKit.report}
+
+## Maintainer operating loop
+
+${workspace.maintainerLoop.report}
 
 ## Support application pack
 
